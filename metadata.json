@@ -1,0 +1,6 @@
+{
+  "name": "The POWER Standard",
+  "description": "Public Office Work Evidence and Results. A national civic accountability infrastructure connecting public problems, authority, plans, implementation, outcomes, and evidence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
