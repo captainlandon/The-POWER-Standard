@@ -1,1 +1,120 @@
 @import "tailwindcss";
+
+@theme {
+  --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-sans: 'Public Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', Menlo, Monaco, Consolas, monospace;
+
+  /* Official Civic Palette (Section 3) */
+  --color-constitutional-navy: #0A1D3B;
+  --color-civic-blue: #2457A7;
+  --color-federal-red: #C7353A;
+  --color-civic-parchment: #F7F4ED;
+  --color-archive-white: #FFFFFF;
+  --color-civic-slate: #596273;
+  --color-civic-ink: #17202A;
+  --color-civic-gold: #B38A3E;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #F7F4ED;
+  color: #17202A;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle civic document paper grid pattern */
+.civic-paper-bg {
+  background-color: #F7F4ED;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(10, 29, 59, 0.015) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Archival document container border */
+.civic-dossier-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(10, 29, 59, 0.12);
+  box-shadow: 0 1px 3px 0 rgba(10, 29, 59, 0.04);
+}
+
+.civic-hairline {
+  border-color: rgba(10, 29, 59, 0.09);
+}
+
+/* American Legislative Double Rule (Used in Acts of Congress & GPO Documents) */
+.civic-double-rule {
+  border-top: 2px solid #0A1D3B;
+  border-bottom: 1px solid #0A1D3B;
+  height: 4px;
+}
+
+.civic-double-rule-light {
+  border-top: 2px solid rgba(10, 29, 59, 0.25);
+  border-bottom: 1px solid rgba(10, 29, 59, 0.12);
+  height: 4px;
+}
+
+/* Classical American Civic Seal Motif */
+.civic-stars-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #B38A3E;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+}
+
+.civic-stars-divider::before,
+.civic-stars-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(179, 138, 62, 0.4), transparent);
+}
+
+/* Official Civic Docket Stamp */
+.civic-docket-stamp {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border: 1px dashed rgba(10, 29, 59, 0.35);
+  border-radius: 2px;
+  background-color: rgba(247, 244, 237, 0.85);
+  color: #0A1D3B;
+}
+
+/* American Neoclassical Pediment Inscription Style */
+.civic-architrave {
+  border-top: 3px solid #0A1D3B;
+  border-bottom: 1px solid #D8D2C4;
+  background-color: #FAF7F0;
+}
+
+/* Custom scrollbars for archival view */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7F4ED;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D2C4;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #596273;
+}

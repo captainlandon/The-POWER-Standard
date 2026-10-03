@@ -31,15 +31,16 @@ export const CommitmentsView: React.FC<CommitmentsViewProps> = ({ onSelectCommit
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div>
-        <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 mb-1">
-          Public Commitments Tracker
+      <div className="border-b border-stone-200 pb-4">
+        <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0A1D3B] mb-1 flex items-center gap-1.5">
+          <span className="text-[#B38A3E]">★ ★ ★</span>
+          <span>Public Covenants & Legislative Commitments · The Public Record</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-serif font-black text-slate-900">
+        <h1 className="text-3xl sm:text-4xl font-serif font-black text-[#0A1D3B]">
           Documented Public Commitments
         </h1>
-        <p className="text-sm text-slate-600 max-w-3xl mt-2 leading-relaxed">
-          Verbatim records of proposed policies, target dates, and funding commitments made by public actors. POWER separates general political aspirations from actionable plans with identified resources.
+        <p className="text-sm text-[#596273] max-w-3xl mt-2 leading-relaxed">
+          In a constitutional democracy, official promises and campaign pledges form the civic covenant between the citizenry and public offices. POWER preserves verbatim records, separating general political rhetoric from concrete legislative plans with identified revenue offsets.
         </p>
       </div>
 

@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Search, 
   Menu, 
   X, 
   Scale, 
-  ShieldCheck, 
+  ChevronDown,
   Layers, 
   MapPin, 
-  User, 
-  Building2, 
   FileText, 
-  AlertCircle,
-  HelpCircle,
-  BarChart2,
-  BookmarkPlus,
   Compass,
   Radio,
   HeartHandshake,
   ShieldAlert,
-  Code
+  Code,
+  BookOpen,
+  BookmarkPlus,
+  Building2,
+  Landmark
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -37,134 +35,196 @@ export const Navbar: React.FC<NavbarProps> = ({
   pendingCorrectionsCount,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [exploreDropdownOpen, setExploreDropdownOpen] = useState(false);
+  const exploreRef = useRef<HTMLDivElement>(null);
 
+  // Close explore dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (exploreRef.current && !exploreRef.current.contains(e.target as Node)) {
+        setExploreDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Primary Navigation Structure (Democratic Navigation Layer Added)
   const primaryNavItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'problems', label: 'Problem Atlas' },
+    { id: 'power-learn', label: 'Civic Context' },
+    { id: 'problems', label: 'Problems' },
     { id: 'institutions', label: 'Power Map' },
-    { id: 'people', label: 'People' },
     { id: 'commitments', label: 'Plans' },
-    { id: 'plan-builder', label: 'Plan Builder', isHighlight: true },
     { id: 'mandate-ledger', label: 'Mandate Ledger' },
-    { id: 'compare', label: 'Compare' },
-    { id: 'flourishing', label: 'Flourishing' },
-    { id: 'ethics', label: 'Ethics Signals' },
     { id: 'evidence', label: 'Evidence' },
-    { id: 'methodology', label: 'Methodology' },
+    { id: 'civic-wire', label: 'Civic Wire' },
+    { id: 'research-api', label: 'Research' },
+  ];
+
+  // Secondary Modules organized cleanly under "Explore" (Section 7)
+  const secondaryModules = [
+    { id: 'power-learn', label: 'POWER Learn Hub', desc: 'How Democracy Works, My Civic Context & Action guide', icon: Landmark },
+    { id: 'plan-builder', label: 'Plan Builder', desc: 'Guided document standard for candidates & officials', icon: Compass },
+    { id: 'compare', label: 'Compare Records', desc: 'Nonpartisan side-by-side policy tradeoff stress-test', icon: Scale },
+    { id: 'flourishing', label: 'Flourishing Outcomes', desc: '8-domain disaggregated wellbeing indicators', icon: HeartHandshake },
+    { id: 'ethics', label: 'Ethics & Money Signals', desc: 'Due-process campaign finance & procurement triage', icon: ShieldAlert },
+    { id: 'people', label: 'Public Actors Directory', desc: 'Elected officials & institutional leadership records', icon: Building2 },
+    { id: 'atlas-preview', label: 'Ward Problem Atlas', desc: 'Disaggregated neighborhood geographic indicators', icon: MapPin },
+    { id: 'dashboard-preview', label: 'My Civic Dashboard', desc: 'Tracked public plans, audits, and saved issues', icon: BookmarkPlus },
   ];
 
   const handleNavClick = (viewId: string) => {
     onNavigate(viewId);
     setMobileMenuOpen(false);
+    setExploreDropdownOpen(false);
   };
 
+  const isExploreActive = secondaryModules.some(m => m.id === currentView);
+
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
+    <header className="sticky top-0 z-40 bg-[#FAF7F0] border-b border-[#0A1D3B]/15 shadow-xs">
+      {/* Classical American civic double hairline top accent */}
+      <div className="h-[2px] bg-[#0A1D3B]" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo & Brand */}
-          <button
-            type="button"
-            onClick={() => handleNavClick('home')}
-            className="flex items-center gap-3 text-left group focus:outline-hidden shrink-0"
-          >
-            <div className="w-10 h-10 rounded-lg bg-slate-900 text-white flex items-center justify-center font-serif font-black text-xl tracking-wider shadow-sm group-hover:bg-indigo-950 transition-colors">
-              P
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-serif font-black tracking-wider text-xl text-slate-900 group-hover:text-indigo-900 transition-colors">
-                  POWER
-                </span>
-                <span className="text-[10px] font-mono uppercase bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-bold border border-slate-200">
-                  Standard v2.0
-                </span>
+        <div className="flex items-center justify-between h-17">
+          {/* Logo & Brand Treatment (American Civic Institutional Mark) */}
+          <div className="flex items-center gap-6">
+            <button
+              type="button"
+              onClick={() => handleNavClick('home')}
+              className="flex items-center gap-3 text-left group focus:outline-hidden shrink-0"
+              aria-label="The POWER Standard Home"
+            >
+              {/* Sovereign American Civic Shield / Seal */}
+              <div className="relative w-9 h-10 rounded-t-sm rounded-b-lg bg-[#0A1D3B] text-white flex flex-col items-center justify-center font-serif font-black shadow-xs group-hover:bg-[#1B4D89] transition-all border border-[#B38A3E]/40">
+                <span className="text-[7px] text-[#B38A3E] font-sans font-bold tracking-tighter leading-none mt-0.5">★ ★ ★</span>
+                <span className="text-base tracking-wider text-[#FAF7F0] leading-none mt-0.5">P</span>
               </div>
-              <div className="text-[10px] text-slate-500 font-sans tracking-tight hidden sm:block">
-                Public Office Work Evidence and Results
+              <div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="font-serif font-black tracking-wider text-xl text-[#0A1D3B] leading-none group-hover:text-[#1B4D89] transition-colors">
+                    POWER
+                  </span>
+                  <span className="text-[10px] font-mono uppercase text-[#B38A3E] font-bold tracking-widest">
+                    Standard
+                  </span>
+                </div>
+                <div className="text-[10px] text-[#596273] font-sans tracking-tight hidden sm:block mt-0.5">
+                  Public Office Work Evidence & Results · <span className="text-[#0A1D3B] font-medium">American Civic Archive</span>
+                </div>
               </div>
-            </div>
-          </button>
+            </button>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center space-x-1 text-xs font-medium text-slate-700">
-            {primaryNavItems.map((item) => {
-              const isActive = currentView === item.id || (currentView.startsWith(item.id.slice(0, 7)));
-              return (
+            {/* Desktop Navigation Links (Section 7) */}
+            <nav className="hidden lg:flex items-center space-x-1 text-xs font-sans font-medium text-[#17202A]">
+              {primaryNavItems.map((item) => {
+                const isActive = currentView === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleNavClick(item.id)}
+                    className={`px-3 py-1.5 rounded transition-colors relative ${
+                      isActive
+                        ? 'text-[#0A1D3B] font-bold after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-[#0A1D3B]'
+                        : 'text-[#596273] hover:text-[#0A1D3B] hover:bg-stone-50'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+
+              {/* Explore / More Dropdown (Section 7) */}
+              <div className="relative" ref={exploreRef}>
                 <button
-                  key={item.id}
                   type="button"
-                  onClick={() => handleNavClick(item.id)}
-                  className={`px-2.5 py-1.5 rounded-md transition-colors ${
-                    item.isHighlight && !isActive
-                      ? 'bg-indigo-50 text-indigo-900 font-bold border border-indigo-200 hover:bg-indigo-100'
-                      : isActive
-                      ? 'bg-slate-900 text-white font-bold'
-                      : 'hover:bg-slate-100 hover:text-slate-900'
+                  onClick={() => setExploreDropdownOpen(prev => !prev)}
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded transition-colors ${
+                    isExploreActive
+                      ? 'text-[#0A1D3B] font-bold bg-stone-100/80'
+                      : 'text-[#596273] hover:text-[#0A1D3B] hover:bg-stone-50'
                   }`}
+                  aria-expanded={exploreDropdownOpen}
+                  aria-haspopup="true"
                 >
-                  {item.label}
+                  <span>Explore</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${exploreDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-              );
-            })}
-          </nav>
 
-          {/* Mid-screen condensed nav */}
-          <nav className="hidden lg:flex xl:hidden items-center space-x-1 text-xs font-medium text-slate-700">
-            {[
-              { id: 'home', label: 'Home' },
-              { id: 'problems', label: 'Problems' },
-              { id: 'institutions', label: 'Power Map' },
-              { id: 'commitments', label: 'Plans' },
-              { id: 'plan-builder', label: 'Plan Builder', isHighlight: true },
-              { id: 'mandate-ledger', label: 'Ledger' },
-              { id: 'flourishing', label: 'Flourishing' },
-              { id: 'compare', label: 'Compare' },
-              { id: 'methodology', label: 'Method' },
-            ].map((item) => {
-              const isActive = currentView === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => handleNavClick(item.id)}
-                  className={`px-2 py-1.5 rounded-md transition-colors ${
-                    isActive
-                      ? 'bg-slate-900 text-white font-bold'
-                      : 'hover:bg-slate-100 hover:text-slate-900'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </nav>
+                {exploreDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-80 bg-white border border-[#0A1D3B]/12 rounded-xl shadow-xl py-2 z-50 animate-in fade-in duration-100">
+                    <div className="px-3.5 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#596273] border-b border-stone-100">
+                      Civic Architecture Modules
+                    </div>
+                    {secondaryModules.map((m) => {
+                      const Icon = m.icon;
+                      const isItemActive = currentView === m.id;
+                      return (
+                        <button
+                          key={m.id}
+                          type="button"
+                          onClick={() => handleNavClick(m.id)}
+                          className={`w-full px-3.5 py-2 text-left flex items-start gap-2.5 transition-colors ${
+                            isItemActive ? 'bg-stone-100/90 text-[#0A1D3B]' : 'hover:bg-stone-50 text-slate-800'
+                          }`}
+                        >
+                          <Icon className="w-4 h-4 text-[#2457A7] shrink-0 mt-0.5" />
+                          <div>
+                            <div className="font-semibold text-xs text-[#0A1D3B]">{m.label}</div>
+                            <div className="text-[11px] text-[#596273] leading-snug">{m.desc}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </nav>
+          </div>
 
-          {/* Right Header Utilities: Search & Dispute Button */}
-          <div className="flex items-center gap-2">
+          {/* Right Header Utilities: Search, Methodology, Challenge Record */}
+          <div className="flex items-center gap-2.5">
+            {/* Universal Search (⌘K) */}
             <button
               type="button"
               onClick={onOpenSearch}
-              className="flex items-center gap-2 px-3 py-1.5 text-xs text-slate-500 bg-slate-100 hover:bg-slate-200 hover:text-slate-800 rounded-lg border border-slate-200 transition-colors focus:outline-hidden"
-              title="Search public record"
+              className="flex items-center gap-2 px-3 py-1.5 text-xs text-[#596273] bg-stone-100/80 hover:bg-stone-200/70 hover:text-[#0A1D3B] rounded border border-stone-200/90 transition-colors focus:outline-hidden focus:ring-1 focus:ring-[#0A1D3B]"
+              title="Search public record (⌘K)"
             >
-              <Search className="w-4 h-4 text-slate-400" />
-              <span className="hidden md:inline">Universal Search</span>
-              <kbd className="hidden md:inline text-[9px] font-mono bg-white text-slate-500 px-1.5 py-0.5 rounded border border-slate-300">
+              <Search className="w-3.5 h-3.5 text-[#596273]" />
+              <span className="hidden sm:inline font-sans text-xs">Search Archive</span>
+              <kbd className="hidden md:inline text-[10px] font-mono bg-white text-[#596273] px-1.5 py-0.5 rounded border border-stone-300">
                 ⌘K
               </kbd>
             </button>
 
+            {/* Methodology Link */}
+            <button
+              type="button"
+              onClick={() => handleNavClick('methodology')}
+              className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-sans font-medium rounded transition-colors ${
+                currentView === 'methodology' 
+                  ? 'text-[#0A1D3B] font-bold bg-stone-100' 
+                  : 'text-[#596273] hover:text-[#0A1D3B]'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5 text-[#596273]" />
+              <span>Methodology</span>
+            </button>
+
+            {/* Challenge Record / Public Dispute Button */}
             <button
               type="button"
               onClick={onOpenCorrection}
-              className="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-800 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-lg transition-colors focus:outline-hidden"
-              title="Suggest a correction or challenge a record"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-sans font-semibold text-[#0A1D3B] bg-white hover:bg-stone-50 border border-[#0A1D3B]/20 rounded transition-colors shadow-2xs focus:outline-hidden focus:ring-1 focus:ring-[#0A1D3B]"
+              title="Submit counterevidence or challenge a public claim"
             >
-              <Scale className="w-3.5 h-3.5 text-amber-700" />
-              <span className="hidden sm:inline">Challenge Record</span>
+              <Scale className="w-3.5 h-3.5 text-[#B38A3E]" />
+              <span className="hidden md:inline">Challenge Record</span>
               {pendingCorrectionsCount > 0 && (
-                <span className="ml-1 px-1.5 py-0.2 text-[10px] font-mono bg-amber-600 text-white rounded-full">
+                <span className="px-1.5 py-0.2 text-[10px] font-mono font-bold bg-[#B38A3E] text-white rounded">
                   {pendingCorrectionsCount}
                 </span>
               )}
@@ -174,201 +234,75 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg"
+              className="lg:hidden p-2 text-[#596273] hover:text-[#0A1D3B] hover:bg-stone-100 rounded"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5 text-[#0A1D3B]" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Complete Ecosystem Sub-nav Banner (Business Plan v2.0 Architecture) */}
-      <div className="bg-slate-50 border-t border-slate-200 py-1.5 px-4 text-[11px] text-slate-600">
-        <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto whitespace-nowrap gap-4">
-          <div className="flex items-center gap-3">
-            <span className="font-semibold text-slate-800">Ecosystem Hub:</span>
-            
-            <button
-              type="button"
-              onClick={() => handleNavClick('plan-builder')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'plan-builder' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <Compass className="w-3.5 h-3.5 text-indigo-600" />
-              Plan Builder
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('mandate-ledger')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'mandate-ledger' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <Layers className="w-3.5 h-3.5 text-slate-500" />
-              Mandate Ledger
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('flourishing')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'flourishing' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <HeartHandshake className="w-3.5 h-3.5 text-rose-500" />
-              Flourishing Outcomes
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('ethics')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'ethics' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
-              Ethics & Money Signals
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('civic-wire')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'civic-wire' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <Radio className="w-3.5 h-3.5 text-blue-500" />
-              Civic Wire & Action
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('atlas-preview')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'atlas-preview' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <MapPin className="w-3.5 h-3.5 text-slate-500" />
-              Ward Problem Atlas
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('dashboard-preview')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'dashboard-preview' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <BookmarkPlus className="w-3.5 h-3.5 text-slate-500" />
-              My Civic Dashboard
-            </button>
-
-            <span className="text-slate-300">•</span>
-
-            <button
-              type="button"
-              onClick={() => handleNavClick('research-api')}
-              className={`hover:text-indigo-700 inline-flex items-center gap-1 font-medium ${currentView === 'research-api' ? 'font-bold text-indigo-700' : ''}`}
-            >
-              <Code className="w-3.5 h-3.5 text-slate-500" />
-              Research API
-            </button>
-          </div>
-
-          <div className="text-slate-400 text-[10px] hidden lg:block font-mono">
-            Public Office Work Evidence & Results
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-200 bg-white p-4 space-y-1 shadow-lg max-h-[80vh] overflow-y-auto">
-          <div className="font-mono text-[10px] uppercase font-bold text-slate-400 px-3 py-1">
-            Primary Navigation
-          </div>
-          {primaryNavItems.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleNavClick(item.id)}
-              className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
-                currentView === item.id
-                  ? 'bg-slate-900 text-white'
-                  : 'text-slate-700 hover:bg-slate-100'
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-          <div className="pt-3 border-t border-slate-200 space-y-1 text-xs text-slate-600">
-            <div className="font-mono text-[10px] uppercase font-bold text-slate-400 px-3 py-1">
-              Ecosystem Modules
+        <div className="lg:hidden border-t border-[#0A1D3B]/10 bg-white p-4 space-y-4 animate-in slide-in-from-top-2 duration-150 shadow-lg">
+          <div className="space-y-1">
+            <div className="text-[10px] font-mono uppercase text-[#596273] font-bold px-2 mb-1">
+              Public Record
             </div>
+            {primaryNavItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full text-left px-3 py-2 rounded text-xs font-medium ${
+                  currentView === item.id
+                    ? 'bg-[#0A1D3B] text-white font-bold'
+                    : 'text-[#17202A] hover:bg-stone-100'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="border-t border-stone-200 pt-3 space-y-1">
+            <div className="text-[10px] font-mono uppercase text-[#596273] font-bold px-2 mb-1">
+              Architecture & Tools
+            </div>
+            {secondaryModules.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => handleNavClick(m.id)}
+                className={`w-full text-left px-3 py-2 rounded text-xs font-medium ${
+                  currentView === m.id
+                    ? 'bg-[#0A1D3B] text-white font-bold'
+                    : 'text-[#596273] hover:bg-stone-100'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="border-t border-stone-200 pt-3 flex items-center justify-between">
             <button
               type="button"
-              onClick={() => handleNavClick('plan-builder')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
+              onClick={() => handleNavClick('methodology')}
+              className="text-xs text-[#596273] hover:text-[#0A1D3B] font-medium"
             >
-              <Compass className="w-4 h-4 text-indigo-600" />
-              <span>Interactive Plan Builder</span>
+              Methodology & Ethics Charter
             </button>
             <button
               type="button"
-              onClick={() => handleNavClick('mandate-ledger')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
+              onClick={() => {
+                onOpenCorrection();
+                setMobileMenuOpen(false);
+              }}
+              className="text-xs text-[#0A1D3B] font-bold underline"
             >
-              <Layers className="w-4 h-4 text-slate-500" />
-              <span>Mandate Ledger</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('flourishing')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
-            >
-              <HeartHandshake className="w-4 h-4 text-rose-500" />
-              <span>Flourishing Outcomes Layer</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('ethics')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
-            >
-              <ShieldAlert className="w-4 h-4 text-amber-600" />
-              <span>Ethics Signals & Money Influence</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('civic-wire')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
-            >
-              <Radio className="w-4 h-4 text-blue-500" />
-              <span>Civic Wire & Action Center</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('atlas-preview')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
-            >
-              <MapPin className="w-4 h-4 text-slate-500" />
-              <span>Ward Problem Atlas</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('dashboard-preview')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
-            >
-              <BookmarkPlus className="w-4 h-4 text-slate-500" />
-              <span>My Civic Dashboard</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleNavClick('research-api')}
-              className="w-full text-left px-3 py-2 rounded hover:bg-slate-100 flex items-center gap-2"
-            >
-              <Code className="w-4 h-4 text-slate-500" />
-              <span>Research API & Schemas</span>
+              Challenge Record
             </button>
           </div>
         </div>

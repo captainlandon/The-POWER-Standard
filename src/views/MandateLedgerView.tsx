@@ -47,24 +47,24 @@ export const MandateLedgerView: React.FC<MandateLedgerViewProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div className="flex items-start justify-between flex-wrap gap-4">
+      <div className="flex items-start justify-between flex-wrap gap-4 border-b border-stone-200 pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 mb-2">
-            <Layers className="w-3.5 h-3.5" />
-            Layer 5 • Post-Election Mandate Continuity
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0A1D3B] mb-1 flex items-center gap-1.5">
+            <span className="text-[#B38A3E]">★ ★ ★</span>
+            <span>Post-Election Governance · Public Trust & Delivery Audit</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-serif font-black text-slate-900">
-            The Mandate Ledger
+          <h1 className="text-3xl sm:text-4xl font-serif font-black text-[#0A1D3B]">
+            The Public Mandate Ledger
           </h1>
-          <p className="text-sm text-slate-600 max-w-3xl mt-1 leading-relaxed">
-            Follow winning plans after an election. The Mandate Ledger connects campaign commitments to real government activity: enacted legislation, municipal budgets, agency procurements, operational veto points, and measured outcomes.
+          <p className="text-sm text-[#596273] max-w-3xl mt-1 leading-relaxed">
+            In our democracy, an election confers a governing mandate under the Constitution, not unilateral power. The Mandate Ledger connects campaign commitments to real legislative roll calls, enacted budget appropriations, agency rules, and empirical community outcomes.
           </p>
         </div>
 
         <button
           type="button"
           onClick={() => onNavigate('plan-builder')}
-          className="px-3.5 py-2 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xs transition-colors"
+          className="px-4 py-2 text-xs font-bold text-white bg-[#0A1D3B] hover:bg-[#1B4D89] rounded-lg shadow-xs transition-colors border border-[#B38A3E]/40"
         >
           Draft in Plan Builder
         </button>

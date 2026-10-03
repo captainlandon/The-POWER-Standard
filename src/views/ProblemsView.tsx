@@ -21,15 +21,16 @@ export const ProblemsView: React.FC<ProblemsViewProps> = ({ onSelectProblem }) =
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
       {/* Header */}
-      <div>
-        <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 mb-1">
-          Civic Problems Explorer
+      <div className="border-b border-stone-200 pb-4">
+        <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0A1D3B] mb-1 flex items-center gap-1.5">
+          <span className="text-[#B38A3E]">★ ★ ★</span>
+          <span>Inquiry Before Rhetoric · American Civic Dockets</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-serif font-black text-slate-900">
+        <h1 className="text-3xl sm:text-4xl font-serif font-black text-[#0A1D3B]">
           Public Problems in the Civic Record
         </h1>
-        <p className="text-sm text-slate-600 max-w-3xl mt-2 leading-relaxed">
-          Every record in POWER starts with a documented public condition. Select a problem to inspect who has authority, what public actors committed to, and what outcome evidence exists.
+        <p className="text-sm text-[#596273] max-w-3xl mt-2 leading-relaxed">
+          In a self-governing republic, public deliberation begins with documented community conditions rather than campaign rhetoric. Select any docket to inspect constitutional authority, pledged commitments, budget allocations, and empirical outcome data.
         </p>
       </div>
 

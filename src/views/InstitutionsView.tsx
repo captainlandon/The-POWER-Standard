@@ -1,7 +1,21 @@
 import React, { useState } from 'react';
 import { INSTITUTIONS, PUBLIC_PROBLEMS, PUBLIC_ACTORS } from '../data/mockData';
 import { AuthorityBadge, DataStatusBadge, SimulatedRecordNotice } from '../components/Badge';
-import { Building2, Search, Filter, ArrowRight, BookOpen, Scale, ShieldAlert } from 'lucide-react';
+import { 
+  Building2, 
+  Search, 
+  Filter, 
+  ArrowRight, 
+  BookOpen, 
+  Scale, 
+  ShieldAlert,
+  Sparkles,
+  Loader2,
+  AlertTriangle,
+  Layers,
+  HelpCircle,
+  CheckCircle2
+} from 'lucide-react';
 
 interface InstitutionsViewProps {
   onSelectInstitution: (id: string) => void;
@@ -10,6 +24,40 @@ interface InstitutionsViewProps {
 export const InstitutionsView: React.FC<InstitutionsViewProps> = ({ onSelectInstitution }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('All');
+
+  // AI Statutory Authority Discovery State
+  const [issueQuery, setIssueQuery] = useState('Who has the legal authority to repair road infrastructure on Constitution Avenue NW and curb traffic deaths?');
+  const [isDiscovering, setIsDiscovering] = useState(false);
+  const [mappingResult, setMappingResult] = useState<any | null>(null);
+  const [mappingError, setMappingError] = useState<string | null>(null);
+
+  const handleDiscoverAuthority = async (customQuery?: string) => {
+    const q = customQuery || issueQuery;
+    if (!q.trim()) return;
+
+    setIsDiscovering(true);
+    setMappingError(null);
+    try {
+      const res = await fetch('/api/ai/discover-authority', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          issueDescription: q,
+          jurisdiction: 'District of Columbia',
+        }),
+      });
+      const data = await res.json();
+      if (data.authorityMapping) {
+        setMappingResult(data.authorityMapping);
+      } else {
+        setMappingError('Authority mapping could not be completed. Please try again.');
+      }
+    } catch (e) {
+      setMappingError((e as Error).message);
+    } finally {
+      setIsDiscovering(false);
+    }
+  };
 
   const filtered = INSTITUTIONS.filter(i => {
     const matchesSearch = i.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -23,20 +71,188 @@ export const InstitutionsView: React.FC<InstitutionsViewProps> = ({ onSelectInst
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <div>
-        <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-700 mb-1">
-          Civic Governance Directory
+      <div className="border-b border-stone-200 pb-4">
+        <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0A1D3B] mb-1 flex items-center gap-1.5">
+          <span className="text-[#B38A3E]">★ ★ ★</span>
+          <span>Constitutional Separation of Powers · Institutional Directory</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-serif font-black text-slate-900">
-          Responsible Public Institutions
+        <h1 className="text-3xl sm:text-4xl font-serif font-black text-[#0A1D3B]">
+          Public Authorities & Statutory Charters
         </h1>
-        <p className="text-sm text-slate-600 max-w-3xl mt-2 leading-relaxed">
-          Inspect public institutions by their formal statutory charters, formal legal powers, budget authorities, and explicitly defined jurisdictional boundaries.
+        <p className="text-sm text-[#596273] max-w-3xl mt-2 leading-relaxed">
+          In a constitutional republic, power is distributed across legislative, executive, administrative, and regulatory bodies. Inspect each authority by its statutory charter, budget control, legal limits, and inter-agency checks and balances.
         </p>
       </div>
 
       {/* Simulated Demonstration Record Notice (Requirement 2) */}
       <SimulatedRecordNotice />
+
+      {/* AI Statutory Authority & Veto Point Locator (The POWER Standard v2.0) */}
+      <div className="bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 shadow-md space-y-5">
+        <div className="flex items-start justify-between flex-wrap gap-4">
+          <div className="space-y-1 max-w-2xl">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400 text-slate-950 uppercase">
+                AI Authority & Veto Point Locator
+              </span>
+              <span className="text-xs text-slate-400 font-mono">
+                Charter & Home Rule Specialist
+              </span>
+            </div>
+            <h2 className="text-lg font-serif font-bold text-white">
+              Map Legal Authority, Home Rule Boundaries & Civic Leverage Points
+            </h2>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Civic participants often petition the wrong institution. Enter any public friction or reform goal to identify which constitutional office holds primary jurisdiction, where federal/intergovernmental veto points lie, and where citizen testimony actually has leverage.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-1.5 flex-wrap text-xs">
+            <span className="text-slate-400 font-mono text-[11px]">Quick Scenarios:</span>
+            <button
+              type="button"
+              onClick={() => {
+                const q = 'Who has legal authority over adult criminal felony prosecution in the District of Columbia?';
+                setIssueQuery(q);
+                handleDiscoverAuthority(q);
+              }}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded border border-slate-700 text-[11px] transition-colors"
+            >
+              Felony Prosecution
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const q = 'Who approves dedicated bus rapid transit lanes that cross federal parkways and commercial corridors?';
+                setIssueQuery(q);
+                handleDiscoverAuthority(q);
+              }}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded border border-slate-700 text-[11px] transition-colors"
+            >
+              Transit Bus Lanes
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const q = 'Who controls municipal rent stabilization caps and historic preservation variances?';
+                setIssueQuery(q);
+                handleDiscoverAuthority(q);
+              }}
+              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded border border-slate-700 text-[11px] transition-colors"
+            >
+              Rent Caps & Zoning
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <input
+            type="text"
+            value={issueQuery}
+            onChange={(e) => setIssueQuery(e.target.value)}
+            placeholder="Describe any civic problem or desired policy reform..."
+            className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-amber-400 font-sans"
+          />
+          <button
+            type="button"
+            onClick={() => handleDiscoverAuthority()}
+            disabled={isDiscovering}
+            className="w-full sm:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shrink-0 transition-all shadow-sm disabled:opacity-50"
+          >
+            {isDiscovering ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4 text-amber-300" />}
+            <span>{isDiscovering ? 'Mapping Power...' : 'Discover Legal Authority'}</span>
+          </button>
+        </div>
+
+        {mappingError && (
+          <div className="p-3 bg-rose-950/80 border border-rose-800 text-rose-200 text-xs rounded-xl flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+            <span>{mappingError}</span>
+          </div>
+        )}
+
+        {/* Authority Mapping Results Display */}
+        {mappingResult && (
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-5 space-y-4 animate-in fade-in duration-200 text-xs text-slate-300">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Primary Authority */}
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                <div className="font-mono font-bold text-[11px] uppercase text-amber-400 flex items-center gap-1.5">
+                  <Scale className="w-3.5 h-3.5" />
+                  Primary Legal Authority
+                </div>
+                <div className="text-sm font-bold text-white">
+                  {mappingResult.primaryLegalAuthority?.institution}
+                </div>
+                <div className="text-slate-400 font-mono text-[11px]">
+                  Office: {mappingResult.primaryLegalAuthority?.officeTitle}
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed">
+                  {mappingResult.primaryLegalAuthority?.statutoryPower}
+                </p>
+                <div className="bg-slate-800/80 p-2 rounded text-[11px] font-mono text-slate-400">
+                  Basis: {mappingResult.primaryLegalAuthority?.legalBasis}
+                </div>
+              </div>
+
+              {/* Home Rule & Federal Limits */}
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                <div className="font-mono font-bold text-[11px] uppercase text-blue-400 flex items-center gap-1.5">
+                  <ShieldAlert className="w-3.5 h-3.5" />
+                  Home Rule & Federal Jurisdictional Limits
+                </div>
+                <p className="text-slate-300 text-xs leading-relaxed">
+                  {mappingResult.homeRuleOrFederalLimits}
+                </p>
+                <div className="pt-2">
+                  <span className="font-mono font-bold text-[10px] uppercase text-slate-400">
+                    Dependent / Shared Entities:
+                  </span>
+                  <ul className="mt-1 space-y-1">
+                    {(mappingResult.sharedOrDependentEntities || []).map((ent: string, i: number) => (
+                      <li key={i} className="flex items-start gap-1.5 text-[11px] text-slate-300">
+                        <span className="text-blue-400">•</span>
+                        <span>{ent}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Veto Points & Actionable Civic Leverage */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+              <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                <div className="font-mono font-bold text-[11px] uppercase text-rose-400 flex items-center gap-1.5">
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  Institutional Veto Points
+                </div>
+                <ul className="space-y-1.5">
+                  {(mappingResult.institutionalVetoPoints || []).map((v: string, i: number) => (
+                    <li key={i} className="flex items-start gap-1.5 text-[11px] text-slate-300">
+                      <span className="text-rose-400">•</span>
+                      <span>{v}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-emerald-950/40 border border-emerald-800/80 rounded-xl p-4 space-y-2">
+                <div className="font-mono font-bold text-[11px] uppercase text-emerald-400 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Actionable Civic Leverage Point
+                </div>
+                <p className="text-emerald-100 text-xs leading-relaxed">
+                  {mappingResult.actionableCivicLeveragePoint}
+                </p>
+                <div className="pt-1 text-[11px] text-emerald-300/80 font-mono">
+                  {mappingResult.powerStandardRecommendation}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Filter and Search Bar */}
       <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">

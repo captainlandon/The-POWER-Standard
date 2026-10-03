@@ -36,7 +36,7 @@ async function queryGemini(systemInstruction: string, prompt: string): Promise<s
     throw new Error('GEMINI_API_KEY_UNAVAILABLE');
   }
   const response = await ai.models.generateContent({
-    model: 'gemini-3.8-flash',
+    model: 'gemini-flash-latest',
     contents: prompt,
     config: {
       systemInstruction,
@@ -290,7 +290,7 @@ Independent Audit Commitment: ${plan.auditPlan || 'None'}
  * 2. AI Evidentiary Claim Analyzer
  * Deconstructs public claims into claim types, evidentiary strength, and verification checklists.
  */
-app.post('/api/ai/analyze-evidence', async (req, res) => {
+app.post(['/api/ai/analyze-evidence', '/api/ai/analyze-claim'], async (req, res) => {
   const { claimText, context, sourceName, publisher } = req.body || {};
 
   const systemInstruction = `You are The POWER Standard Senior Evidence Validator.

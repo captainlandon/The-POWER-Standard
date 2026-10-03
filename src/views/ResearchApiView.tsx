@@ -18,30 +18,29 @@ export const ResearchApiView: React.FC = () => {
   const [selectedEndpoint, setSelectedEndpoint] = useState<'plans' | 'problems' | 'authorities' | 'flourishing'>('plans');
   const [copiedCurl, setCopiedCurl] = useState(false);
   const [copiedCitation, setCopiedCitation] = useState(false);
+  const [liveResponse, setLiveResponse] = useState<any | null>(null);
+  const [isLoadingLive, setIsLoadingLive] = useState(false);
+  const [liveLatency, setLiveLatency] = useState<number | null>(null);
 
   const endpoints = {
     plans: {
-      url: '/api/v2/plans?jurisdiction=DC&status=enacted',
+      url: '/api/v2/plans',
       method: 'GET',
       desc: 'Retrieves all structured POWER plans with versioned field families, authority linkages, and resource appropriations.',
       sampleResponse: {
-        totalRecords: 14,
+        standardVersion: '2.0.0',
         jurisdiction: 'District of Columbia',
         dataStatus: 'Simulated Demonstration Record',
+        totalRecords: 4,
         items: [
           {
-            id: 'plan-housing-36k',
+            id: 'comm-housing-36k',
             title: 'Produce 36,000 New Housing Units by 2025',
-            version: '2.1.0',
-            participationStatus: 'Office-Verified',
-            authority: {
-              type: 'Executive',
-              legalBasis: 'Mayor’s Order 2019-036'
-            },
-            resources: {
-              appropriatedAmount: 100000000,
-              currency: 'USD'
-            }
+            office: 'Executive Office of the Mayor',
+            authorityType: 'Executive',
+            legalBasis: "Mayor's Order 2019-036",
+            budgetAppropriated: 100000000,
+            currency: 'USD',
           }
         ]
       }
@@ -52,26 +51,20 @@ export const ResearchApiView: React.FC = () => {
       desc: 'Returns problem indicators, time-series baselines, affected population disaggregation, and linked authorities.',
       sampleResponse: {
         id: 'housing-affordability',
-        title: 'Housing Affordability & Production Deficit',
-        geography: 'Washington, DC',
-        indicators: [
-          {
-            name: 'Median Monthly Rent to Median Household Income Ratio',
-            current: '31.2%',
-            baseline: '27.4% (2015)'
-          }
-        ]
+        title: 'Severe Housing Cost Burden & Affordable Supply Deficit',
+        jurisdiction: 'District of Columbia',
+        baselineProblemStatement: 'Over 21% of DC households spend greater than 50% of income on rent, concentrated heavily in Wards 7 and 8.',
+        flourishingDomain: 'Material security',
       }
     },
     authorities: {
-      url: '/api/v2/authorities/graph?node=dc-council',
+      url: '/api/health',
       method: 'GET',
-      desc: 'Returns the statutory authority graph, including what the office controls, what it does NOT control, and dependent entities.',
+      desc: 'Checks POWER Standard REST service health, Gemini API key telemetry, and server status.',
       sampleResponse: {
-        institution: 'Council of the District of Columbia',
-        legalBasis: 'D.C. Official Code § 1-204.04',
-        powers: ['Legislative', 'Budgetary Approval', 'Oversight'],
-        limits: ['Cannot prosecute adult criminal felonies (USAO federal jurisdiction)']
+        status: 'ok',
+        service: 'The POWER Standard API v2.0',
+        geminiConfigured: true,
       }
     },
     flourishing: {
@@ -80,13 +73,28 @@ export const ResearchApiView: React.FC = () => {
       desc: 'Returns the 8 Flourishing Domains with disaggregated ward distributions and required interpretation caveats.',
       sampleResponse: {
         standardVersion: '2.0',
-        domainsCount: 8,
-        disclaimer: 'Flourishing is an empirical decision lens, never a composite ranking.'
+        description: 'The 8 Non-Composite Flourishing Outcome Domains (Business Plan v2.0 - Page 13)',
+        epistemicPrinciple: 'Never collapse into a single aggregate municipal ranking.',
       }
     }
   };
 
   const activeEp = endpoints[selectedEndpoint];
+
+  const handleExecuteLive = async () => {
+    setIsLoadingLive(true);
+    const start = performance.now();
+    try {
+      const res = await fetch(activeEp.url);
+      const data = await res.json();
+      setLiveLatency(Math.round(performance.now() - start));
+      setLiveResponse(data);
+    } catch (e) {
+      setLiveResponse({ error: (e as Error).message });
+    } finally {
+      setIsLoadingLive(false);
+    }
+  };
 
   const handleCopyCurl = () => {
     navigator.clipboard.writeText(`curl -X GET "https://api.thepowerstandard.org${activeEp.url}" \\\n  -H "Accept: application/json"`);
@@ -157,30 +165,60 @@ export const ResearchApiView: React.FC = () => {
             <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold">
               {activeEp.method}
             </span>
-            <span className="text-slate-300">https://api.thepowerstandard.org{activeEp.url}</span>
+            <span className="text-slate-300">{activeEp.url}</span>
           </div>
 
-          <button
-            type="button"
-            onClick={handleCopyCurl}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors shrink-0 text-[11px]"
-          >
-            {copiedCurl ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copiedCurl ? 'cURL Copied' : 'Copy cURL'}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleExecuteLive}
+              disabled={isLoadingLive}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-colors shrink-0 text-[11px] shadow-xs disabled:opacity-50"
+            >
+              <span>{isLoadingLive ? 'Querying...' : 'Execute Live API Call'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleCopyCurl}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors shrink-0 text-[11px]"
+            >
+              {copiedCurl ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copiedCurl ? 'cURL Copied' : 'Copy cURL'}</span>
+            </button>
+          </div>
         </div>
 
         <p className="text-xs text-slate-600">
           {activeEp.desc}
         </p>
 
+        {/* Live execution indicator */}
+        {liveLatency !== null && (
+          <div className="flex items-center gap-2 text-xs font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg">
+            <Check className="w-4 h-4 text-emerald-600" />
+            <span>HTTP 200 OK • Round-trip Latency: {liveLatency}ms • Served from Live Express / API Backend</span>
+          </div>
+        )}
+
         {/* JSON Output View */}
         <div className="space-y-1.5">
-          <span className="text-[10px] font-mono uppercase font-bold text-slate-400 block">
-            Response Payload (application/json)
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-mono uppercase font-bold text-slate-400 block">
+              {liveResponse ? 'Live Server Response Payload (application/json)' : 'Schema Blueprint Sample (application/json)'}
+            </span>
+            {liveResponse && (
+              <button
+                type="button"
+                onClick={() => setLiveResponse(null)}
+                className="text-[10px] font-mono text-slate-500 hover:text-slate-800 underline"
+              >
+                Reset to Blueprint Sample
+              </button>
+            )}
+          </div>
           <pre className="p-4 bg-slate-950 text-slate-200 rounded-xl text-[11px] font-mono overflow-x-auto border border-slate-800 max-h-80 leading-snug">
-            {JSON.stringify(activeEp.sampleResponse, null, 2)}
+            {JSON.stringify(liveResponse || activeEp.sampleResponse, null, 2)}
           </pre>
         </div>
       </div>

@@ -23,8 +23,10 @@ import {
   ExternalLink,
   ShieldAlert,
   Clock,
-  Layers
+  Layers,
+  Sparkles
 } from 'lucide-react';
+import { HowThisGetsDoneModal } from '../components/HowThisGetsDoneModal';
 
 interface CommitmentDetailViewProps {
   commitmentId: string;
@@ -44,6 +46,7 @@ export const CommitmentDetailView: React.FC<CommitmentDetailViewProps> = ({
   onOpenUpload
 }) => {
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<string | null>(null);
+  const [isProcessModalOpen, setIsProcessModalOpen] = useState(false);
 
   const comm = COMMITMENTS.find(c => c.id === commitmentId) || COMMITMENTS[0];
   const actor = PUBLIC_ACTORS.find(a => a.id === comm.actorId);
@@ -63,7 +66,17 @@ export const CommitmentDetailView: React.FC<CommitmentDetailViewProps> = ({
           <span>Back to All Commitments</span>
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Show me how this could actually happen */}
+          <button
+            type="button"
+            onClick={() => setIsProcessModalOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#0A1D3B] bg-[#FAF7F0] hover:bg-stone-100 border border-[#B38A3E]/60 rounded-lg shadow-2xs transition-colors"
+          >
+            <Layers className="w-3.5 h-3.5 text-[#B38A3E]" />
+            <span>Show Me How This Could Actually Happen</span>
+          </button>
+
           <button
             type="button"
             onClick={() => onOpenUpload(comm.id, 'Commitment Milestone & Evidence')}
@@ -476,6 +489,15 @@ export const CommitmentDetailView: React.FC<CommitmentDetailViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Dynamic Process Simulator Modal */}
+      <HowThisGetsDoneModal
+        isOpen={isProcessModalOpen}
+        onClose={() => setIsProcessModalOpen(false)}
+        planTitle={comm.title}
+        planContext={comm.originalWordingOrParaphrase}
+        problemTitle={problem?.title}
+      />
     </div>
   );
 };

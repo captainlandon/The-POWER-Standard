@@ -114,6 +114,39 @@ export const InstitutionDetailView: React.FC<InstitutionDetailViewProps> = ({
           </p>
         </div>
 
+        {/* Embedded Civic Context: 3 Citizen Understanding Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1 text-xs">
+          <div className="bg-[#FAF7F0] border border-stone-200 p-4 rounded-xl space-y-1.5">
+            <span className="font-mono font-bold text-[#0A1D3B] uppercase text-[10px] block flex items-center gap-1">
+              <span className="text-[#B38A3E]">★</span>
+              <span>Why This Institution Matters</span>
+            </span>
+            <p className="text-[#17202A] leading-relaxed">
+              This body holds primary constitutional or charter jurisdiction over statutory mandates, policy authorization, and institutional standards in its domain. Without its formal action, reforms cannot acquire the force of law.
+            </p>
+          </div>
+
+          <div className="bg-[#FAF7F0] border border-stone-200 p-4 rounded-xl space-y-1.5">
+            <span className="font-mono font-bold text-[#0A1D3B] uppercase text-[10px] block flex items-center gap-1">
+              <span className="text-[#2457A7]">★</span>
+              <span>Your Relationship to This Office</span>
+            </span>
+            <p className="text-[#17202A] leading-relaxed">
+              As a resident or voter, you exercise oversight through public hearings, direct constituent petitions, public records requests (FOIA), and participatory open comment periods during agency rulemaking.
+            </p>
+          </div>
+
+          <div className="bg-amber-50/70 border border-amber-200 p-4 rounded-xl space-y-1.5">
+            <span className="font-mono font-bold text-amber-900 uppercase text-[10px] block flex items-center gap-1">
+              <span className="text-amber-700">★</span>
+              <span>What It Cannot Do Alone</span>
+            </span>
+            <p className="text-amber-950 leading-relaxed">
+              Under separation of powers, this institution requires cross-branch cooperation: legislative mandates require executive agencies to write operational rules, and executive plans require council budget appropriations.
+            </p>
+          </div>
+        </div>
+
         {/* The Two Halves: Powers vs Jurisdictional Limits Safeguard */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           {/* Key Powers */}

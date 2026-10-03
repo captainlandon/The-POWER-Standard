@@ -26,6 +26,7 @@ import { FlourishingOutcomesView } from './views/FlourishingOutcomesView';
 import { EthicsSignalsView } from './views/EthicsSignalsView';
 import { CivicWireAndPartiesView } from './views/CivicWireAndPartiesView';
 import { ResearchApiView } from './views/ResearchApiView';
+import { PowerLearnView } from './views/PowerLearnView';
 
 import { EVIDENCE_STORE, INITIAL_CORRECTIONS } from './data/mockData';
 import { EvidenceItem, CorrectionSubmission, FeedbackSubmission } from './types/power';
@@ -109,7 +110,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100/70 text-slate-900 font-sans flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#F7F4ED] text-[#17202A] font-sans flex flex-col selection:bg-blue-100 selection:text-[#0A1D3B]">
       {/* Top Banner */}
       <DemoBanner />
 
@@ -269,96 +270,117 @@ export default function App() {
         {currentView === 'research-api' && (
           <ResearchApiView />
         )}
+
+        {currentView === 'power-learn' && (
+          <PowerLearnView
+            onNavigate={handleNavigate}
+          />
+        )}
       </main>
 
-      {/* Global Civic Footer */}
-      <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 pt-14 pb-12 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      {/* Global American Civic Footer */}
+      <footer className="bg-[#0A1D3B] text-stone-300 border-t-2 border-[#B38A3E]/40 pt-14 pb-12 text-xs relative overflow-hidden">
+        {/* Subtle American civic top border line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#B38A3E]/50 to-transparent" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-            {/* Col 1: Identity & Maxim */}
+            {/* Col 1: American Democratic Heritage */}
             <div className="lg:col-span-2 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded bg-white text-slate-950 flex items-center justify-center font-serif font-black text-lg">
-                  P
+                <div className="relative w-10 h-11 rounded-t-sm rounded-b-lg bg-[#FAF7F0] text-[#0A1D3B] flex flex-col items-center justify-center font-serif font-black shadow-md border border-[#B38A3E]/50">
+                  <span className="text-[7px] text-[#B38A3E] font-sans font-bold tracking-tighter leading-none mt-0.5">★ ★ ★</span>
+                  <span className="text-lg tracking-wider text-[#0A1D3B] leading-none mt-0.5">P</span>
                 </div>
                 <div>
-                  <div className="font-serif font-black text-xl text-white tracking-wider">
-                    POWER
+                  <div className="font-serif font-black text-xl text-[#FAF7F0] tracking-wider flex items-center gap-2">
+                    <span>POWER</span>
+                    <span className="text-[10px] font-mono text-[#B38A3E] uppercase font-bold tracking-widest border border-[#B38A3E]/40 px-1.5 py-0.2 rounded">
+                      Standard
+                    </span>
                   </div>
-                  <div className="text-[10px] text-slate-400 font-mono">
-                    The POWER Standard
+                  <div className="text-[10px] text-stone-400 font-mono tracking-wider uppercase">
+                    American Civic Accountability Archive
                   </div>
                 </div>
               </div>
-              <p className="text-slate-400 leading-relaxed font-sans max-w-sm">
-                Public Office Work Evidence and Results. A national civic accountability infrastructure connecting public problems, authority, plans, implementation, outcomes, and evidence.
+              <p className="text-stone-300 leading-relaxed font-sans max-w-sm text-xs">
+                Public Office Work Evidence and Results. An open civic infrastructure connecting public problems, statutory authority, campaign plans, budget appropriations, implementation milestones, and verified outcomes.
               </p>
-              <div className="text-[11px] font-serif italic text-slate-400 border-l-2 border-slate-700 pl-3">
-                “Do not tell the public whom to trust. Make the public record easier to inspect.”
+              <div className="text-[11px] font-serif italic text-stone-300/90 border-l-2 border-[#B38A3E] pl-3 leading-relaxed space-y-1">
+                <p>
+                  “Knowledge will forever govern ignorance: And a people who mean to be their own Governors, must arm themselves with the power which knowledge gives.”
+                </p>
+                <span className="block font-mono text-[10px] text-[#B38A3E] not-italic">
+                  — James Madison, Letter to W.T. Barry (August 4, 1822)
+                </span>
               </div>
             </div>
 
-            {/* Col 2: The Core Chain */}
+            {/* Col 2: The Democratic Covenant */}
             <div className="space-y-3">
-              <h4 className="font-mono font-bold uppercase text-slate-200 text-[11px] tracking-wider">
-                Accountability Chain
+              <h4 className="font-mono font-bold uppercase text-[#FAF7F0] text-[11px] tracking-wider flex items-center gap-1">
+                <span className="text-[#B38A3E]">★</span>
+                <span>Democratic Covenant</span>
               </h4>
-              <ul className="space-y-1.5 text-slate-400">
-                <li><button type="button" onClick={() => handleNavigate('problems')} className="hover:text-white">1. Public Problem</button></li>
-                <li><button type="button" onClick={() => handleNavigate('institutions')} className="hover:text-white">2. Authority & Charter</button></li>
-                <li><button type="button" onClick={() => handleNavigate('commitments')} className="hover:text-white">3. Public Commitment</button></li>
-                <li><button type="button" onClick={() => handleNavigate('plan-builder')} className="hover:text-white text-indigo-400 font-semibold">4. Plan Builder</button></li>
-                <li><button type="button" onClick={() => handleNavigate('mandate-ledger')} className="hover:text-white text-indigo-400 font-semibold">5. Mandate Ledger</button></li>
-                <li><button type="button" onClick={() => handleNavigate('flourishing')} className="hover:text-white text-rose-400 font-semibold">6. Flourishing Outcomes</button></li>
-                <li><button type="button" onClick={() => handleNavigate('evidence')} className="hover:text-white">7. Primary Evidence</button></li>
+              <ul className="space-y-1.5 text-stone-300">
+                <li><button type="button" onClick={() => handleNavigate('problems')} className="hover:text-white transition-colors">1. The Public Problem</button></li>
+                <li><button type="button" onClick={() => handleNavigate('institutions')} className="hover:text-white transition-colors">2. Constitutional Authority</button></li>
+                <li><button type="button" onClick={() => handleNavigate('commitments')} className="hover:text-white transition-colors">3. Policy Commitment</button></li>
+                <li><button type="button" onClick={() => handleNavigate('plan-builder')} className="hover:text-amber-300 text-amber-400/90 font-semibold transition-colors">4. Candidate Plan Standard</button></li>
+                <li><button type="button" onClick={() => handleNavigate('mandate-ledger')} className="hover:text-blue-300 text-blue-400 font-semibold transition-colors">5. The Mandate Ledger</button></li>
+                <li><button type="button" onClick={() => handleNavigate('flourishing')} className="hover:text-emerald-300 text-emerald-400 font-semibold transition-colors">6. Measured Outcomes</button></li>
+                <li><button type="button" onClick={() => handleNavigate('evidence')} className="hover:text-white transition-colors">7. Primary Evidence</button></li>
               </ul>
             </div>
 
-            {/* Col 3: Ecosystem Modules */}
+            {/* Col 3: Civic Intelligence Modules */}
             <div className="space-y-3">
-              <h4 className="font-mono font-bold uppercase text-slate-200 text-[11px] tracking-wider">
-                Ecosystem Modules
+              <h4 className="font-mono font-bold uppercase text-[#FAF7F0] text-[11px] tracking-wider flex items-center gap-1">
+                <span className="text-[#B38A3E]">★</span>
+                <span>Civic Architecture</span>
               </h4>
-              <ul className="space-y-1.5 text-slate-400 text-[11px]">
-                <li><button type="button" onClick={() => handleNavigate('ethics')} className="hover:text-white">Ethics & Money Signals</button></li>
-                <li><button type="button" onClick={() => handleNavigate('civic-wire')} className="hover:text-white">Civic Wire & Action</button></li>
-                <li><button type="button" onClick={() => handleNavigate('atlas-preview')} className="hover:text-white">Ward Problem Atlas</button></li>
-                <li><button type="button" onClick={() => handleNavigate('dashboard-preview')} className="hover:text-white">My Civic Dashboard</button></li>
-                <li><button type="button" onClick={() => handleNavigate('research-api')} className="hover:text-white">Research & API Schema</button></li>
-                <li><button type="button" onClick={() => handleNavigate('methodology')} className="hover:text-white">Methodology & Charter</button></li>
+              <ul className="space-y-1.5 text-stone-300 text-[11px]">
+                <li><button type="button" onClick={() => handleNavigate('ethics')} className="hover:text-white transition-colors">Ethics & Money Signals</button></li>
+                <li><button type="button" onClick={() => handleNavigate('civic-wire')} className="hover:text-white transition-colors">Civic Wire Gazette</button></li>
+                <li><button type="button" onClick={() => handleNavigate('atlas-preview')} className="hover:text-white transition-colors">Ward Geographic Atlas</button></li>
+                <li><button type="button" onClick={() => handleNavigate('dashboard-preview')} className="hover:text-white transition-colors">My Civic Dashboard</button></li>
+                <li><button type="button" onClick={() => handleNavigate('research-api')} className="hover:text-white transition-colors">Open Research API (v2.0)</button></li>
+                <li><button type="button" onClick={() => handleNavigate('methodology')} className="hover:text-white transition-colors">Civic Charter & Standard</button></li>
               </ul>
             </div>
 
-            {/* Col 4: Platform & Audits */}
+            {/* Col 4: Sovereign Citizen Audits */}
             <div className="space-y-3">
-              <h4 className="font-mono font-bold uppercase text-slate-200 text-[11px] tracking-wider">
-                Public Record Audit
+              <h4 className="font-mono font-bold uppercase text-[#FAF7F0] text-[11px] tracking-wider flex items-center gap-1">
+                <span className="text-[#B38A3E]">★</span>
+                <span>Citizen Due Process</span>
               </h4>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                Found an error, missing statute, or misclassified authority? Submit a challenge with primary sources.
+              <p className="text-[11px] text-stone-300 leading-relaxed">
+                In a constitutional democracy, every citizen possesses the right to challenge the public record with primary evidence.
               </p>
               <button
                 type="button"
                 onClick={() => handleOpenCorrection()}
-                className="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-slate-700 rounded text-xs font-semibold transition-colors flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 px-3 bg-stone-900 hover:bg-stone-800 text-amber-300 border border-[#B38A3E]/50 rounded text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-xs"
               >
-                <Scale className="w-3.5 h-3.5" />
-                <span>Suggest Correction</span>
+                <Scale className="w-3.5 h-3.5 text-[#B38A3E]" />
+                <span>Challenge Public Record</span>
               </button>
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 font-mono">
+          {/* Bottom American Democratic Bar */}
+          <div className="pt-8 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-stone-400 font-mono">
             <div>
-              Demonstration Jurisdiction: Washington, DC • Open-Source Civic Schema
+              E PLURIBUS UNUM • JURISDICTION: WASHINGTON, DC (HOME RULE) • STRICT NONPARTISAN STANDARD
             </div>
             <div className="flex items-center gap-4">
-              <button type="button" onClick={() => handleNavigate('methodology')} className="hover:text-slate-300">Methodology</button>
+              <button type="button" onClick={() => handleNavigate('methodology')} className="hover:text-white transition-colors">Methodology</button>
               <span>•</span>
-              <button type="button" onClick={() => handleNavigate('compare')} className="hover:text-slate-300">Compare Records</button>
+              <button type="button" onClick={() => handleNavigate('compare')} className="hover:text-white transition-colors">Compare Records</button>
               <span>•</span>
-              <button type="button" onClick={() => handleNavigate('evidence')} className="hover:text-slate-300">Evidence Archive</button>
+              <button type="button" onClick={() => handleNavigate('evidence')} className="hover:text-white transition-colors">Evidence Archive</button>
             </div>
           </div>
         </div>

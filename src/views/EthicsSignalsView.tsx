@@ -16,7 +16,13 @@ import {
   Info,
   Clock,
   Building2,
-  Lock
+  Lock,
+  Sparkles,
+  Loader2,
+  X,
+  RefreshCw,
+  Copy,
+  Check
 } from 'lucide-react';
 
 interface EthicsSignalsViewProps {
@@ -32,6 +38,51 @@ export const EthicsSignalsView: React.FC<EthicsSignalsViewProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedStatus, setSelectedStatus] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState('');
+
+  // AI Influence Examiner State
+  const [isExamining, setIsExamining] = useState(false);
+  const [examResult, setExamResult] = useState<any | null>(null);
+  const [examError, setExamError] = useState<string | null>(null);
+  const [isExamModalOpen, setIsExamModalOpen] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const [donorInput, setDonorInput] = useState('Mid-Atlantic Commercial Property Owners Political Action Committee');
+  const [officialInput, setOfficialInput] = useState('Council of the District of Columbia — Committee on Business & Economic Development');
+  const [contribInput, setContribInput] = useState('$18,500 in bundled PAC campaign contributions (2022-2024 cycle)');
+  const [actionInput, setActionInput] = useState('Enactment of Downtown Commercial Office-to-Residential Tax Abatement Subtitle');
+
+  const handleRunInfluenceExamination = async (d?: string, o?: string, c?: string, a?: string) => {
+    const donor = d || donorInput;
+    const official = o || officialInput;
+    const contrib = c || contribInput;
+    const action = a || actionInput;
+
+    setIsExamining(true);
+    setExamError(null);
+    try {
+      const res = await fetch('/api/ai/examine-influence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          entityName: donor,
+          officialName: official,
+          contributions: contrib,
+          legislativeAction: action,
+        }),
+      });
+      const data = await res.json();
+      if (data.examination) {
+        setExamResult(data.examination);
+        setIsExamModalOpen(true);
+      } else {
+        setExamError('Influence examination could not be generated. Please try again.');
+      }
+    } catch (e) {
+      setExamError((e as Error).message);
+    } finally {
+      setIsExamining(false);
+    }
+  };
 
   const filteredSignals = ETHICS_SIGNALS.filter(sig => {
     const matchesCategory = selectedCategory === 'All' || sig.category === selectedCategory;
@@ -260,6 +311,66 @@ export const EthicsSignalsView: React.FC<EthicsSignalsViewProps> = ({
             </div>
           </div>
 
+          {/* AI Influence & FOIA Inquiry Examiner */}
+          <div className="bg-slate-900 text-white rounded-2xl p-6 border border-slate-800 shadow-md space-y-4">
+            <div className="flex items-start justify-between flex-wrap gap-4">
+              <div className="space-y-1 max-w-2xl">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400 text-slate-950 uppercase">
+                    AI Influence Correlation Examiner
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">
+                    Model: Gemini First Amendment Impartial Analyst
+                  </span>
+                </div>
+                <h3 className="text-base font-serif font-bold text-white">
+                  Examine Donor / Lobbying Timelines & Generate FOIA Inquiries
+                </h3>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Test chronological alignment between campaign donations and legislative votes. Under The POWER Standard due-process rules, correlation does not establish unlawful influence. Generates objective public records questions.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleRunInfluenceExamination()}
+                disabled={isExamining}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all disabled:opacity-50"
+              >
+                {isExamining ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-amber-300" />}
+                <span>{isExamining ? 'Auditing Influence Timeline...' : 'Examine Influence Timeline'}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label className="block text-[11px] font-mono text-slate-400 mb-1">Contributor / Donor Entity</label>
+                <input
+                  type="text"
+                  value={donorInput}
+                  onChange={(e) => setDonorInput(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+                />
+              </div>
+              <div>
+                <label className="block text-[11px] font-mono text-slate-400 mb-1">Legislative Action / Procurement Award</label>
+                <input
+                  type="text"
+                  value={actionInput}
+                  onChange={(e) => setActionInput(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+                />
+              </div>
+            </div>
+
+            {examError && (
+              <div className="p-3 bg-rose-950/80 border border-rose-800 text-rose-200 text-xs rounded-xl flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+                <span>{examError}</span>
+              </div>
+            )}
+          </div>
+
           <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
@@ -271,6 +382,7 @@ export const EthicsSignalsView: React.FC<EthicsSignalsViewProps> = ({
                     <th className="p-3.5">Amount (USD)</th>
                     <th className="p-3.5">Date</th>
                     <th className="p-3.5">Disclosure Citation</th>
+                    <th className="p-3.5">Audit Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -297,10 +409,134 @@ export const EthicsSignalsView: React.FC<EthicsSignalsViewProps> = ({
                         <div className="truncate max-w-xs">{item.disclosureSource}</div>
                         <span className="text-[10px] text-slate-400 italic block mt-0.5">{item.caveatNote}</span>
                       </td>
+                      <td className="p-3.5">
+                        <button
+                          type="button"
+                          onClick={() => handleRunInfluenceExamination(item.donorOrEntity, item.recipientOfficeOrCandidate, `$${item.amount.toLocaleString()} (${item.category})`, 'Related Council Committee Vote')}
+                          className="inline-flex items-center gap-1 text-[11px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded border border-indigo-200 transition-colors shrink-0"
+                        >
+                          <Sparkles className="w-3 h-3 text-indigo-600" />
+                          <span>AI Audit</span>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* AI Influence Examination Modal */}
+      {isExamModalOpen && examResult && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-150">
+          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200">
+            {/* Modal Header */}
+            <div className="p-6 border-b border-slate-200 bg-slate-900 text-white rounded-t-2xl flex items-start justify-between">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-400 text-slate-950 uppercase">
+                    Influence & Ethics Audit
+                  </span>
+                  <span className="text-xs text-slate-400 font-mono">
+                    Model: Gemini First Amendment Impartial Analyst
+                  </span>
+                </div>
+                <h3 className="text-lg font-serif font-bold text-white">
+                  Timeline Correlation & Transparency Examination
+                </h3>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsExamModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto space-y-6 text-xs text-slate-800">
+              {/* Classification Banner */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <span className="font-mono text-[10px] font-bold uppercase text-slate-500">
+                    Evidentiary Classification
+                  </span>
+                  <span className="px-2.5 py-0.5 rounded font-mono font-bold text-xs bg-amber-100 text-amber-900 border border-amber-300">
+                    {examResult.evidentiaryClassification}
+                  </span>
+                </div>
+                <div className="font-bold text-slate-900 text-sm">
+                  {examResult.entityName} → {examResult.officialName}
+                </div>
+                <p className="text-slate-700 leading-relaxed text-xs">
+                  {examResult.chronologySummary}
+                </p>
+              </div>
+
+              {/* Mandatory Legal & Epistemic Disclaimer */}
+              <div className="p-4 bg-amber-50/80 border border-amber-300 rounded-xl space-y-1.5 text-amber-950">
+                <div className="font-mono font-bold text-xs uppercase flex items-center gap-1.5 text-amber-900">
+                  <Scale className="w-3.5 h-3.5 text-amber-700" />
+                  Due-Process & First Amendment Transparency Standard
+                </div>
+                <p className="text-xs leading-relaxed">
+                  {examResult.epistemicDisclaimer}
+                </p>
+                <div className="text-[10px] font-mono text-amber-800 pt-1">
+                  Applicable Statutory Framework: {examResult.statutoryFrameworkApplicable}
+                </div>
+              </div>
+
+              {/* Public FOIA Questions */}
+              <div className="space-y-3">
+                <div className="font-mono font-bold text-xs uppercase text-slate-800 flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-indigo-700" />
+                  Recommended Public Records & FOIA Inquiries for Independent Watchdogs
+                </div>
+                <div className="space-y-2">
+                  {(examResult.transparencyQuestionsForPublic || []).map((q: string, idx: number) => {
+                    const isCopied = copiedIndex === idx;
+                    return (
+                      <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex items-start justify-between gap-3 text-slate-900">
+                        <div className="space-y-1">
+                          <span className="font-mono text-[10px] uppercase font-bold text-indigo-700">Inquiry 0{idx + 1}</span>
+                          <p className="text-xs leading-relaxed">{q}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(q);
+                            setCopiedIndex(idx);
+                            setTimeout(() => setCopiedIndex(null), 2000);
+                          }}
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-300 rounded px-2 py-1 shrink-0 transition-colors"
+                        >
+                          {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                          <span>{isCopied ? 'Copied' : 'Copy'}</span>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 bg-slate-50 border-t border-slate-200 rounded-b-2xl flex items-center justify-between">
+              <span className="text-[11px] text-slate-500 font-mono">
+                The POWER Standard • Ethics Signals & Anti-Defamation Policy
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsExamModalOpen(false)}
+                className="px-4 py-1.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-lg transition-colors shadow-xs"
+              >
+                Close Report
+              </button>
             </div>
           </div>
         </div>

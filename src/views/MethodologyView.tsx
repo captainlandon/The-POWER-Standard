@@ -30,20 +30,36 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
       {/* Header */}
-      <div className="space-y-3">
-        <div className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-700">
-          Platform Charter & Epistemic Standards
+      <div className="space-y-4 border-b border-stone-200 pb-6">
+        <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0A1D3B] flex items-center gap-1.5">
+          <span className="text-[#B38A3E]">★ ★ ★</span>
+          <span>Civic Charter & Epistemic Standards · The American Democratic Tradition</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-slate-900 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-black text-[#0A1D3B] tracking-tight">
           The POWER Methodology
         </h1>
+
+        {/* James Madison Complete Foundational Inscription */}
+        <div className="bg-[#FAF7F0] border-l-4 border-[#0A1D3B] p-5 rounded-r-xl space-y-2 border-y border-r border-stone-200">
+          <p className="font-serif italic text-base sm:text-lg text-[#0A1D3B] leading-relaxed">
+            “Knowledge will forever govern ignorance: And a people who mean to be their own Governors, must arm themselves with the power which knowledge gives.”
+          </p>
+          <div className="flex items-center justify-between flex-wrap gap-2 text-xs font-mono text-[#596273] pt-1">
+            <span className="font-bold text-[#0A1D3B]">— James Madison, Letter to W.T. Barry (August 4, 1822)</span>
+            <span className="text-[11px] text-[#B38A3E] font-semibold">Foundational Principle of The POWER Standard</span>
+          </div>
+          <p className="text-[12px] text-[#596273] leading-relaxed pt-1 font-sans border-t border-stone-200/80 mt-2">
+            In his 1822 letter, Madison observed that a popular government without popular information is but a prologue to farce or tragedy. To remain free and self-governing, a democracy requires transparent, verifiable public information accessible to every citizen.
+          </p>
+        </div>
+
         <p className="text-base text-slate-700 max-w-3xl leading-relaxed">
           The POWER Standard — <strong>Public Office Work Evidence and Results</strong> (v2.0) — is built on a single organizing maxim:
           <strong className="block text-slate-950 font-serif italic text-lg mt-2">
             “Do not tell the public whom to trust. Make the public record easier to inspect.”
           </strong>
         </p>
-        <div className="p-3 bg-slate-100 rounded-lg border border-slate-200 text-xs text-slate-600 font-mono">
+        <div className="p-3 bg-stone-100 rounded-lg border border-stone-200 text-xs text-slate-700 font-mono">
           <strong>Authoritative Expansion Note (Business Plan v2.0):</strong> The controlling expansion is <em>Public Office Work Evidence and Results</em>. Earlier working expansions (such as <em>Platform for Objective Workable Evidence-based Responsibility</em>) are officially treated as retired working language.
         </div>
       </div>
@@ -92,6 +108,72 @@ export const MethodologyView: React.FC<MethodologyViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* The Madisonian Framework for Modern Civic Literacy & Self-Governance */}
+      <section className="bg-[#FAF7F0] border border-[#0A1D3B]/20 rounded-2xl p-6 sm:p-8 space-y-6 relative overflow-hidden">
+        <div className="space-y-2">
+          <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#0A1D3B] flex items-center gap-1.5">
+            <span className="text-[#B38A3E]">★ ★ ★</span>
+            <span>Civic Education & Madisonian Principles</span>
+          </div>
+          <h2 className="text-2xl font-serif font-black text-[#0A1D3B]">
+            The Madisonian Standard: Why Knowledge Must Govern Ignorance
+          </h2>
+          <p className="text-xs sm:text-sm text-[#596273] max-w-3xl leading-relaxed">
+            In modern civic education and public advocacy, James Madison’s 1822 declaration to W.T. Barry serves as the bedrock argument for four interconnected pillars of democratic self-governance:
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs">
+          {/* Pillar 1 */}
+          <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center gap-2 text-[#0A1D3B] font-mono font-bold text-xs uppercase tracking-wide">
+              <span className="w-5 h-5 rounded-full bg-[#0A1D3B] text-white flex items-center justify-center text-[10px]">1</span>
+              <span>Government Transparency & FOIA</span>
+            </div>
+            <h3 className="font-serif font-bold text-sm text-[#0A1D3B]">Placing Governors & Governed on Equal Footing</h3>
+            <p className="text-[#596273] leading-relaxed">
+              Democracy cannot function if public power is shielded from scrutiny. As celebrated annually during Sunshine Week, Madison’s principle requires that the citizenry possess the statutory right to inspect official records, meeting minutes, general ledgers, and executive orders.
+            </p>
+          </div>
+
+          {/* Pillar 2 */}
+          <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center gap-2 text-[#0A1D3B] font-mono font-bold text-xs uppercase tracking-wide">
+              <span className="w-5 h-5 rounded-full bg-[#0A1D3B] text-white flex items-center justify-center text-[10px]">2</span>
+              <span>Information & Media Literacy</span>
+            </div>
+            <h3 className="font-serif font-bold text-sm text-[#0A1D3B]">Transforming Raw Claims into Verified Evidence</h3>
+            <p className="text-[#596273] leading-relaxed">
+              Without the tools to distinguish political spin from verified empirical fact, public discourse degenerates into what Madison called “a prologue to a farce or a tragedy.” POWER provides the epistemic scaffolding to deconstruct claims, check sources, and detect confounding variables.
+            </p>
+          </div>
+
+          {/* Pillar 3 */}
+          <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center gap-2 text-[#0A1D3B] font-mono font-bold text-xs uppercase tracking-wide">
+              <span className="w-5 h-5 rounded-full bg-[#0A1D3B] text-white flex items-center justify-center text-[10px]">3</span>
+              <span>Civic Infrastructure & Education</span>
+            </div>
+            <h3 className="font-serif font-bold text-sm text-[#0A1D3B]">Security Against Encroachments on Liberty</h3>
+            <p className="text-[#596273] leading-relaxed">
+              Originating in Madison’s praise of Kentucky’s public school funding, open civic educational infrastructure is the “best security against crafty & dangerous encroachments on the public liberty.” Free public data and open standards protect the republic from institutional opacity.
+            </p>
+          </div>
+
+          {/* Pillar 4 */}
+          <div className="bg-white p-5 rounded-xl border border-stone-200 shadow-xs space-y-2">
+            <div className="flex items-center gap-2 text-[#0A1D3B] font-mono font-bold text-xs uppercase tracking-wide">
+              <span className="w-5 h-5 rounded-full bg-[#0A1D3B] text-white flex items-center justify-center text-[10px]">4</span>
+              <span>Lifelong Democratic Citizenship</span>
+            </div>
+            <h3 className="font-serif font-bold text-sm text-[#0A1D3B]">Continuous Oversight Beyond the Ballot Box</h3>
+            <p className="text-[#596273] leading-relaxed">
+              Voting is only the beginning of democratic duty. The enduring responsibility of the citizen is continuous oversight: tracking whether winning campaign pledges are codified into law, funded in annual appropriations, executed by agencies, and proven by outcome data.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* Two Pillars: What POWER Measures vs What POWER Does NOT Determine */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
