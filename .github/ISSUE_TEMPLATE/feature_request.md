@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Propose an improvement to The POWER Standard
- title: "[Feature] "
+title: "[Feature] "
 labels: ""
 assignees: ""
 ---
