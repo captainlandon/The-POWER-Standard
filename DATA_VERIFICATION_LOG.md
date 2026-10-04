@@ -60,6 +60,73 @@ This log records public-release verification decisions for prototype civic recor
 
 ---
 
+### Mayor's Order 2019-036 — Housing Initiative
+
+**Prototype record:** `ev-mayor-order-2019`
+
+**Decision:** Verified source / bounded claim, subject to correcting the dataset source URL and reviewing any downstream interpretation.
+
+**Primary source located:** District of Columbia Office of Planning copy of Mayor's Order 2019-036, dated May 10, 2019.
+
+**Canonical source:** https://planning.dc.gov/sites/default/files/dc/sites/op/page_content/attachments/2019-036%20Housing%20Initiative%20%285.9%29.pdf
+
+**What the source directly establishes:**
+- The District set a goal to create **36,000 new residential units by 2025**.
+- The Order states that **at least 12,000** of the new units should be affordable to low-income households.
+- The Order also identifies a goal of preserving an additional 6,000 affordable units.
+- The Office of Planning and related housing agencies were directed to investigate and implement policy approaches and area-specific planning.
+
+**What it does not establish:**
+- That 36,000 units were ultimately delivered.
+- That the 12,000 affordable-unit target was achieved.
+- That a particular budget appropriation was made solely because of this order.
+- That subsequent housing outcomes were caused by the order.
+
+**Required dataset change:** Replace the placeholder URL with the exact DC government PDF and ensure downstream implementation/outcome fields are separately sourced.
+
+---
+
+### FY2022 Housing Production Trust Fund appropriation
+
+**Prototype record:** `ev-council-hptf-act-2021`
+
+**Decision:** Partially verified; citation/title in the prototype needs correction and the claim should be bounded to authorization/appropriation rather than expenditure.
+
+**Official sources located:**
+- D.C. Act 24-175, Fiscal Year 2022 Local Budget Emergency Act of 2021: https://code.dccouncil.gov/us/dc/council/acts/24-175
+- D.C. Law 24-43, Fiscal Year 2022 Local Budget Act of 2021: https://code.dccouncil.gov/us/dc/council/laws/24-43
+
+**What the Act source establishes:**
+- The Housing Production Trust Fund line is stated as **$250,000,000** in the FY2022 emergency budget act.
+- The law/act framework authorizes expenditure subject to the terms of the enacted budget.
+
+**Issue found in the prototype:**
+- The current record title cites **“D.C. Act 24-159”**, which does not match the official source located for the $250 million HPTF line.
+- The current record wording should distinguish an appropriation/authorization from actual disbursement or completed expenditure.
+
+**Required dataset change:**
+- Correct the legal citation/title to the operative official source used.
+- Replace the placeholder URL.
+- Preserve the existing `doesNotEstablish` distinction that appropriation does not prove full expenditure, project completion, or downstream housing outcomes.
+
+**Current release status:** Needs citation correction before the record can be publicly labeled verified.
+
+---
+
+### ODCA Housing Production Trust Fund audit record
+
+**Prototype record:** `ev-odca-hptf-audit-2022`
+
+**Decision:** Needs correction / further verification.
+
+**Official material located:** An Office of the D.C. Auditor report on the District of Columbia Housing Production Trust Fund was located, but the specific prototype claim that FY2018–FY2021 administration failed a **50%** Extremely Low-Income allocation requirement was not reproduced from the located source. The ODCA material reviewed describes a statutory targeting framework that included **40%** for households at or below 30% AMI and another 40% for households at 31–50% AMI in the cited period.
+
+**Issue found:** The prototype's percentage, audit window, and wording may combine material from different statutory periods or reports.
+
+**Required dataset change:** Keep this record demo/unverified until the exact ODCA report, audit period, applicable statutory language, and finding are matched line-for-line to the claim.
+
+---
+
 ## Global findings from the first data pass
 
 `src/data/mockData.ts` currently contains multiple records that combine one or more of the following:
@@ -81,14 +148,12 @@ This is a conservative publication rule, not a finding that the underlying claim
 
 ## Next verification sequence
 
-1. Mayor's Order 2019-036 and the 36,000 / 12,000 housing target.
-2. FY2022 Local Budget Act / HPTF appropriation claim.
-3. ODCA Housing Production Trust Fund audit claim.
-4. DHCD housing production/preservation figures.
-5. WMATA Vital Signs performance claims.
-6. DDOT bus-priority mileage claims.
-7. MPD 2024 crime-statistics claims.
-8. Secure DC enactment, vote, legal citation, and scope.
-9. All remaining public problems, institutions, actors, commitments, budgets, dates, and outcomes.
+1. DHCD housing production/preservation figures.
+2. WMATA Vital Signs performance claims.
+3. DDOT bus-priority mileage claims.
+4. MPD 2024 crime-statistics claims.
+5. Secure DC enactment, vote, legal citation, and scope.
+6. All remaining public problems, institutions, actors, commitments, budgets, dates, and outcomes.
+7. Replace every placeholder source URL and reconcile `epistemicStatus`, `dataStatus`, and `isDemoData` across the corpus.
 
 Every verification decision should preserve POWER's rule: **official does not mean infallible, and a source proves only what it actually establishes.**
