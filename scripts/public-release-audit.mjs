@@ -32,7 +32,11 @@ for (const file of files) {
     warnings.push(`${rel}: contains placeholder civic-source references`);
   }
 
-  if (/overallScore|Audit Score|\/ 100|A - Exemplary Standard|B - Substantial Rigor|C - Lacks Key Controls|D - Rhetorical \/ Unverifiable/.test(text)) {
+  const legacyScoreLanguage =
+    /overallScore|Audit Score|A - Exemplary Standard|B - Substantial Rigor|C - Lacks Key Controls|D - Rhetorical \/ Unverifiable/.test(text) ||
+    /\/\s*100\b/.test(text);
+
+  if (legacyScoreLanguage) {
     failures.push(`${rel}: legacy aggregate POWER scoring language remains`);
   }
 }
