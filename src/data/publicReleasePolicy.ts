@@ -74,5 +74,11 @@ for (const collection of [INSTITUTIONS, PUBLIC_ACTORS, COMMITMENTS, PUBLIC_PROBL
     record.dataStatus = 'Simulated Demonstration Record';
     record.isDemoData = true;
     if (record.epistemicStatus === 'Verified') record.epistemicStatus = 'Unclear';
+
+    // Legacy UI fields may display a date next to the word "Verified". Do not allow a stale date
+    // to imply that a composite demo record has completed the current verification protocol.
+    if ('lastVerifiedDate' in record) {
+      record.lastVerifiedDate = 'Pending independent verification';
+    }
   }
 }
