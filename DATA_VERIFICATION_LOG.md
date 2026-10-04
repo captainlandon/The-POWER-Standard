@@ -127,6 +127,64 @@ This log records public-release verification decisions for prototype civic recor
 
 ---
 
+### DHCD FY2024 housing-production record
+
+**Prototype record:** `ev-dhcd-pipeline-report-2024`
+
+**Decision:** Needs correction / exact source not reproduced.
+
+**Official material located:**
+- DHCD Housing Production Trust Fund Reports: https://dhcd.dc.gov/page/housing-production-trust-fund-reports
+- 2024 Consolidated Request for Proposals for Affordable Housing Projects: https://dhcd.dc.gov/publication/2024-consolidated-request-proposals-affordable-housing-projects
+
+**Issue found:** The current prototype cites a “DHCD Annual Housing Production and Preservation Report: FY2024 Mid-Year Update” with figures of **31,450** total units delivered or under construction and **9,210** covenant-restricted affordable units. That exact report/figure pair was not reproduced from the official DHCD sources reviewed. An official 2024 DHCD page states that **more than 9,800 affordable units had been produced since 2019**, which does not match the prototype's 9,210 figure.
+
+**Required dataset change:** Keep the record as demonstration data until the exact report, date, methodology, and figures are located. Do not substitute the 9,800 figure into the prototype without reconciling whether the two metrics measure the same thing.
+
+---
+
+### DDOT bus-priority mileage record
+
+**Prototype record:** `ev-ddot-bus-priority-2023`
+
+**Decision:** Needs correction.
+
+**Official sources located:**
+- FY2023 DDOT Performance Oversight Hearing testimony: https://ddot.dc.gov/sites/default/files/dc/sites/ddot/release_content/attachments/FY23%20DDOT%20Performance%20Oversight%20Hearing%20Testimony%20240209%202_1.pdf
+- DDOT Bus Lane and Bus Zone Enforcement FAQ: https://ddot.dc.gov/page/ddot-bus-lane-and-bus-zone-enforcement-faqs
+
+**Issue found:** The prototype states **12.4 lane-miles completed** in a 2023 annual progress report. DDOT's FY2023 oversight testimony states **12.1 lane-miles of bus lanes completed**, while a later DDOT page refers to **more than 12.7 lane-miles** in the District. These are time-sensitive metrics and the prototype's 12.4 figure was not reproduced from the official sources reviewed.
+
+**Required dataset change:** Use the exact figure tied to a specific dated source and reporting period. Do not blend figures from different dates.
+
+---
+
+### WMATA Vital Signs performance record
+
+**Prototype record:** `ev-wmata-vital-signs-2024`
+
+**Decision:** Needs correction / likely metric conflation.
+
+**Official material reviewed:** WMATA performance-report material contains values such as **78.1%** and **87.4%** in route-level real-time prediction availability tables, but the source located was FY2023 and those percentages were not systemwide Metrobus and Metrorail on-time performance values as described in the prototype.
+
+**Issue found:** The prototype's wording may have conflated route prediction-availability percentages with on-time performance metrics.
+
+**Required dataset change:** Keep as demo/unverified until the exact FY2024 report is located and each percentage is tied to the correct metric, mode, period, and denominator.
+
+---
+
+### MPD 2024 crime-trend record
+
+**Prototype record:** `ev-mpd-crime-stats-2024`
+
+**Decision:** Unverified demo pending exact source reproduction.
+
+**Issue found:** The current prototype gives **142 homicides YTD through September 2024**, a **28% decrease** from an equivalent 2023 period, and **26% lower total violent crime**. An exact MPD source reproducing that complete claim set was not located in the current pass.
+
+**Required dataset change:** Do not publish as verified until the exact MPD data snapshot, cutoff date, comparison period, and calculation are reproduced. Because MPD dashboards are dynamic, POWER should ideally preserve the retrieval date and archived/source snapshot where possible.
+
+---
+
 ## Global findings from the first data pass
 
 `src/data/mockData.ts` currently contains multiple records that combine one or more of the following:
@@ -148,12 +206,9 @@ This is a conservative publication rule, not a finding that the underlying claim
 
 ## Next verification sequence
 
-1. DHCD housing production/preservation figures.
-2. WMATA Vital Signs performance claims.
-3. DDOT bus-priority mileage claims.
-4. MPD 2024 crime-statistics claims.
-5. Secure DC enactment, vote, legal citation, and scope.
-6. All remaining public problems, institutions, actors, commitments, budgets, dates, and outcomes.
-7. Replace every placeholder source URL and reconcile `epistemicStatus`, `dataStatus`, and `isDemoData` across the corpus.
+1. Secure DC enactment, vote, legal citation, and scope.
+2. All remaining public problems, institutions, actors, commitments, budgets, dates, and outcomes.
+3. Replace every placeholder source URL and reconcile `epistemicStatus`, `dataStatus`, and `isDemoData` across the corpus.
+4. Run `node scripts/public-release-audit.mjs`; the repository should not be made public until it passes.
 
 Every verification decision should preserve POWER's rule: **official does not mean infallible, and a source proves only what it actually establishes.**
