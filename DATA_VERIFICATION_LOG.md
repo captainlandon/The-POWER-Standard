@@ -185,6 +185,31 @@ This log records public-release verification decisions for prototype civic recor
 
 ---
 
+### Secure DC Omnibus Amendment Act of 2024
+
+**Prototype record:** `ev-council-secure-dc-act-2024` and related API demo record.
+
+**Decision:** Core enactment verified; prototype legal citation needs correction and vote-count claim remains unverified in this pass.
+
+**Official source located:** D.C. Law 25-175, Secure DC Omnibus Amendment Act of 2024: https://code.dccouncil.gov/us/dc/council/laws/25-175
+
+**What the official source establishes:**
+- The measure is **D.C. Law 25-175**, the Secure DC Omnibus Amendment Act of 2024.
+- It was introduced as **Bill 25-345**.
+- It passed second reading on **March 5, 2024**.
+- After mayoral review, it was assigned **D.C. Act 25-411** on March 11, 2024.
+- It became effective **June 8, 2024**.
+- The law contains numerous public-safety provisions, including changes related to pretrial detention, firearms/weapons law, drug-free zones, public-safety programs, and other criminal-justice and administrative provisions.
+
+**Issues found in the prototype:**
+- The API demo record currently identifies the legal basis as **D.C. Act 25-410**; the official law history identifies **Act 25-411**.
+- The evidence record says the Council passed the measure by **12-1**. That vote count was not independently reproduced from the official source reviewed in this pass, so it should not be treated as verified yet.
+- Broad summaries such as “over 100 provisions” should be sourced or phrased conservatively unless counted/reproduced from the enrolled law.
+
+**Required dataset change:** Correct Act 25-410 to Act 25-411, replace the placeholder source with the official law URL, and keep the vote count/demo summary unverified until separately sourced.
+
+---
+
 ## Global findings from the first data pass
 
 `src/data/mockData.ts` currently contains multiple records that combine one or more of the following:
@@ -206,9 +231,9 @@ This is a conservative publication rule, not a finding that the underlying claim
 
 ## Next verification sequence
 
-1. Secure DC enactment, vote, legal citation, and scope.
-2. All remaining public problems, institutions, actors, commitments, budgets, dates, and outcomes.
-3. Replace every placeholder source URL and reconcile `epistemicStatus`, `dataStatus`, and `isDemoData` across the corpus.
+1. All remaining public problems, institutions, actors, commitments, budgets, dates, and outcomes.
+2. Replace every placeholder source URL and reconcile `epistemicStatus`, `dataStatus`, and `isDemoData` across the corpus.
+3. Correct known legal/statistical mismatches identified in this log.
 4. Run `node scripts/public-release-audit.mjs`; the repository should not be made public until it passes.
 
 Every verification decision should preserve POWER's rule: **official does not mean infallible, and a source proves only what it actually establishes.**
