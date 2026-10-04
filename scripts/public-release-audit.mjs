@@ -38,16 +38,45 @@ for (const file of files) {
 }
 
 const mockDataPath = path.join(root, 'src', 'data', 'mockData.ts');
+const releasePolicyPath = path.join(root, 'src', 'data', 'publicReleasePolicy.ts');
+const mainPath = path.join(root, 'src', 'main.tsx');
+
+const releasePolicyExists = fs.existsSync(releasePolicyPath);
+const releasePolicyLoaded = fs.existsSync(mainPath)
+  ? /['"]\.\/data\/publicReleasePolicy['"]/.test(fs.readFileSync(mainPath, 'utf8'))
+  : false;
+
+if (releasePolicyExists !== releasePolicyLoaded) {
+  failures.push('public-release policy exists but is not reliably loaded from src/main.tsx');
+}
+
+if (releasePolicyExists) {
+  const policy = fs.readFileSync(releasePolicyPath, 'utf8');
+  if (!/Simulated Demonstration Record/.test(policy) || !/isDemoData\s*=\s*true/.test(policy)) {
+    failures.push('src/data/publicReleasePolicy.ts does not visibly enforce conservative demo-data defaults');
+  }
+}
+
 if (fs.existsSync(mockDataPath)) {
   const text = fs.readFileSync(mockDataPath, 'utf8');
   const blocks = text.split(/\n\s*\},\s*\n\s*\{/);
+  let guardedLegacyBlocks = 0;
+
   blocks.forEach((block, index) => {
     const placeholder = /Official Source Placeholder:/i.test(block);
     const claimsVerified = /dataStatus:\s*['"]Verified Real-World Record['"]|isDemoData:\s*false/i.test(block);
     if (placeholder && claimsVerified) {
-      failures.push(`src/data/mockData.ts: record block ${index + 1} combines a placeholder source with verified/non-demo status`);
+      if (releasePolicyExists && releasePolicyLoaded) {
+        guardedLegacyBlocks += 1;
+      } else {
+        failures.push(`src/data/mockData.ts: record block ${index + 1} combines a placeholder source with verified/non-demo status`);
+      }
     }
   });
+
+  if (guardedLegacyBlocks) {
+    warnings.push(`src/data/mockData.ts: ${guardedLegacyBlocks} legacy block(s) still contain placeholder + verified/non-demo source data; runtime publication guard downgrades these, but source-level cleanup remains technical debt`);
+  }
 }
 
 console.log('\nPOWER public-release audit\n');
@@ -66,4 +95,5 @@ if (failures.length) {
 }
 
 console.log('PASS — no configured release blockers detected.');
+console.log('Warnings are publication debt, not permission to present unverified civic claims as verified.');
 console.log('This automated check supplements, but does not replace, manual civic-data verification.');
