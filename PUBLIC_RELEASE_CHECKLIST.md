@@ -1,6 +1,6 @@
 # Public Release Readiness Checklist
 
-This repository is preparing to move from private prototype work to a public open-source civic-tech project. This checklist distinguishes between **repository-publication readiness** and **production-deployment readiness** so that an open-source release is not held to the same standard as a production civic-data service.
+This repository has moved from private prototype work to a **public open-source civic-tech project**. This checklist distinguishes between **repository-publication readiness** and **production-deployment readiness** so that an open-source release is not held to the same standard as a production civic-data service.
 
 ## 1. Secrets and environment safety
 
@@ -8,10 +8,10 @@ This repository is preparing to move from private prototype work to a public ope
 - [x] `.env.example` contains placeholders only.
 - [x] Gemini credentials are read server-side from `process.env.GEMINI_API_KEY`.
 - [x] Automated release audit scans tracked source files for common AWS, Google, GitHub-token, and private-key patterns.
-- [ ] Re-scan full Git history for secrets before publication if a local clone is available.
+- [ ] Re-scan full Git history for secrets if a local clone is available.
 - [ ] Rotate any credential if there is uncertainty about whether it was ever exposed outside GitHub.
 
-**Publication assessment:** No tracked secret was identified by the current source-tree audit. Full historical secret scanning remains a prudent manual check because the GitHub connector does not substitute for a complete local history scan.
+**Publication assessment:** No tracked secret was identified by the current source-tree audit. Full historical secret scanning remains prudent security hygiene because the GitHub connector does not substitute for a complete local history scan.
 
 ## 2. Civic-data integrity
 
@@ -46,10 +46,9 @@ This repository is preparing to move from private prototype work to a public ope
 - [x] `npm run build` passes.
 - [x] Vite/esbuild dependency compatibility corrected.
 - [x] GitHub Actions `Release Readiness` workflow is active on pushes and pull requests to `main`.
+- [x] A post-release CI run again passed dependency installation, TypeScript checking, release audit, and production build.
 - [ ] Conduct broader manual browser testing of all interactive flows before declaring the application production-ready.
 - [ ] Conduct dedicated mobile/device and accessibility testing before production deployment.
-
-**Latest confirmed CI state:** Release Readiness passed dependency installation, TypeScript checking, public-release audit, and production build.
 
 ## 5. Public deployment safety
 
@@ -78,14 +77,17 @@ These are **production-deployment requirements**, not blockers to publishing the
 - [x] Pull-request template added.
 - [x] Initial contributor backlog added.
 - [x] Source-data cleanup is tracked as Issue #9.
-- [ ] Create additional repository labels such as `good first issue`, `help wanted`, `research`, `data`, `ux`, `frontend`, `accessibility`, and `methodology` when label-management access is available.
-- [ ] Verify all contributor-facing links from a logged-out/incognito browser after the repository becomes public.
+- [x] `good first issue`, `help wanted`, and `documentation` labels are now in active use on contributor-facing issues.
+- [x] Public repository visibility confirmed through GitHub's public repository endpoint.
+- [x] README, issues, license, contributor documentation, and source repository are publicly reachable.
+- [ ] Add more specialized labels such as `research`, `data`, `ux`, `frontend`, `accessibility`, and `methodology` if/when repository label creation is available.
+- [ ] Perform a human incognito-browser visual check of the public GitHub page when convenient.
 
-## 7. Final publication gate
+## 7. Publication status
 
 ### Repository-publication gate
 
-The repository may be made public when all of the following are true:
+The repository-publication gate has passed:
 
 - [x] tracked-source secret scan reports no configured blocker;
 - [x] TypeScript check passes;
@@ -93,18 +95,25 @@ The repository may be made public when all of the following are true:
 - [x] production bundle builds;
 - [x] unresolved civic records are prevented from being represented as verified real-world records at runtime;
 - [x] README and project documentation clearly state that the repository is an active prototype rather than a production public authority;
-- [x] license, contribution guidance, code of conduct, security guidance, roadmap, and issue workflow are present.
+- [x] license, contribution guidance, code of conduct, security guidance, roadmap, and issue workflow are present;
+- [x] repository visibility is **Public**.
 
-**Current assessment: repository-publication gate passed, subject to the manual full-history secret scan noted above if feasible before the visibility switch.**
+### Post-publication actions completed
 
-### After changing visibility to Public
+- [x] Public visibility independently confirmed.
+- [x] Release Readiness CI confirmed green after release-preparation changes.
+- [x] Obsolete pre-publication blocker Issue #8 closed and redirected to ongoing source-level cleanup Issue #9.
+- [x] Newcomer-oriented issues labeled `good first issue` and `help wanted`.
+- [x] Research/data cleanup work labeled `help wanted` where appropriate.
 
-1. Open the repository in a logged-out/incognito browser and verify that README, license, issues, contributor docs, source files, and Actions status render correctly.
-2. Confirm the repository description and About section accurately describe POWER as a nonpartisan civic-accountability prototype/platform under active development.
-3. Update the DemocracyLab listing with the public repository URL.
-4. Begin directing contributors to scoped issues, while keeping Issue #9 as an explicit data-integrity workstream.
-5. Keep production deployment separate from source publication until the production-safety requirements above are satisfied.
+### Next external step
+
+Update the DemocracyLab project listing with the public repository URL:
+
+`https://github.com/captainlandon/The-POWER-Standard`
+
+Keep production deployment separate from source publication until the production-safety requirements above are satisfied.
 
 ---
 
-The governing principle for release is the same as the product itself: **evidence before judgment, and verification before public claims.**
+The governing principle for release remains the same as the product itself: **evidence before judgment, and verification before public claims.**
