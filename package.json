@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "the-power-standard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,9 @@
     "start": "tsx server.ts",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "audit:public-release": "node scripts/public-release-audit.mjs",
+    "check": "npm run lint && npm run audit:public-release && npm run build"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
