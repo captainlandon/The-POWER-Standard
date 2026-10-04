@@ -15,8 +15,8 @@ const port = 3000;
 
 app.use(express.json({ limit: '10mb' }));
 
-// Shared Gemini client utility on the server
-// Strictly initialized on server-side with 'aistudio-build' User-Agent
+// Shared Gemini client utility on the server.
+// The API key is read only from the server environment and is never embedded in client code.
 const apiKey = process.env.GEMINI_API_KEY || '';
 let ai: GoogleGenAI | null = null;
 if (apiKey) {
@@ -30,7 +30,7 @@ if (apiKey) {
   });
 }
 
-// Helper to query Gemini with system instruction
+// Helper to query Gemini with system instruction.
 async function queryGemini(systemInstruction: string, prompt: string): Promise<string> {
   if (!ai || !apiKey) {
     throw new Error('GEMINI_API_KEY_UNAVAILABLE');
@@ -48,7 +48,9 @@ async function queryGemini(systemInstruction: string, prompt: string): Promise<s
 }
 
 /* =========================================================================
-   POWER Standard Research API Endpoints (Business Plan v2.0 - Page 15)
+   POWER Standard Research API Endpoints
+   IMPORTANT: Current records are prototype/demo material unless a record
+   explicitly links sufficient primary sources and has been independently reviewed.
    ========================================================================= */
 
 app.get('/api/health', (_req, res) => {
@@ -64,8 +66,10 @@ app.get('/api/v2/plans', (_req, res) => {
   res.json({
     standardVersion: '2.0.0',
     jurisdiction: 'District of Columbia',
-    dataStatus: 'Simulated Demonstration Record',
-    totalRecords: 4,
+    dataStatus: 'Prototype demonstration data — not a production-verified civic record',
+    methodologyNotice:
+      'Titles, legal references, amounts, statuses, and classifications in this endpoint are demonstration material and must be independently sourced and reviewed before public reliance.',
+    totalRecords: 3,
     items: [
       {
         id: 'comm-housing-36k',
@@ -75,8 +79,8 @@ app.get('/api/v2/plans', (_req, res) => {
         legalBasis: "Mayor's Order 2019-036",
         budgetAppropriated: 100000000,
         currency: 'USD',
-        status: 'In Progress - Behind Schedule',
-        epistemicStatus: 'Partially Verified Record',
+        status: 'Prototype status — verification required',
+        epistemicStatus: 'Demonstration record — source verification required',
       },
       {
         id: 'comm-secure-dc',
@@ -86,8 +90,8 @@ app.get('/api/v2/plans', (_req, res) => {
         legalBasis: 'D.C. Act 25-410 (Secure DC Omnibus Amendment Act of 2024)',
         budgetAppropriated: 18200000,
         currency: 'USD',
-        status: 'Achieved - Verification Pending',
-        epistemicStatus: 'Verified Real-World Record',
+        status: 'Prototype status — verification required',
+        epistemicStatus: 'Demonstration record — source verification required',
       },
       {
         id: 'comm-bus-lanes',
@@ -97,8 +101,8 @@ app.get('/api/v2/plans', (_req, res) => {
         legalBasis: 'D.C. Law 24-045 & DDOT Bus Priority Directive',
         budgetAppropriated: 36000000,
         currency: 'USD',
-        status: 'In Progress - Behind Schedule',
-        epistemicStatus: 'Simulated Demonstration Record',
+        status: 'Prototype status — verification required',
+        epistemicStatus: 'Demonstration record — source verification required',
       },
     ],
   });
@@ -109,6 +113,7 @@ app.get('/api/v2/problems/housing-affordability', (_req, res) => {
     id: 'housing-affordability',
     title: 'Severe Housing Cost Burden & Affordable Supply Deficit',
     jurisdiction: 'District of Columbia',
+    dataStatus: 'Prototype demonstration record — source verification required',
     baselineProblemStatement: 'Over 21% of DC households spend greater than 50% of income on rent, concentrated heavily in Wards 7 and 8.',
     flourishingDomain: 'Material security',
     indicators: [
@@ -116,7 +121,7 @@ app.get('/api/v2/problems/housing-affordability', (_req, res) => {
         name: 'Severe Housing Cost Burden (>50% income on rent)',
         baseline: '19.8% (2019)',
         current: '21.4% (2024)',
-        source: 'U.S. Census Bureau ACS 5-Year Estimates',
+        source: 'U.S. Census Bureau ACS 5-Year Estimates — exact table/source link required before production use',
       },
     ],
     primaryAuthorities: ['dc-dhcd', 'dc-council', 'dc-dcha'],
@@ -126,7 +131,7 @@ app.get('/api/v2/problems/housing-affordability', (_req, res) => {
 app.get('/api/v2/flourishing/domains', (_req, res) => {
   res.json({
     standardVersion: '2.0',
-    description: 'The 8 Non-Composite Flourishing Outcome Domains (Business Plan v2.0 - Page 13)',
+    description: 'Eight non-composite flourishing outcome domains used by the current POWER prototype methodology.',
     domains: [
       'Material security',
       'Health',
@@ -137,52 +142,68 @@ app.get('/api/v2/flourishing/domains', (_req, res) => {
       'Agency and voice',
       'Meaning and culture',
     ],
-    epistemicPrinciple: 'Never collapse into a single aggregate municipal ranking. Maintain disaggregated ward distributions and explicit causal caveats.',
+    epistemicPrinciple: 'Never collapse these domains into a single aggregate municipal ranking. Maintain disaggregated distributions and explicit causal caveats.',
   });
 });
 
 /* =========================================================================
    AI CIVIC INTELLIGENCE ENGINE (The POWER Standard)
-   Strictly aligned with nonpartisan civic accountability, legal realism & evidentiary rigor.
+   AI output is analytical assistance, not an authoritative legal, factual,
+   electoral, or policy judgment. Important claims require source verification.
    ========================================================================= */
 
 /**
  * 1. AI POWER Standard Plan Auditor
  * Evaluates draft plans against the 9 Field Families of the POWER Plan taxonomy.
+ * It deliberately does NOT assign a composite numeric score or letter grade.
  */
 app.post('/api/ai/audit-plan', async (req, res) => {
   const plan = req.body || {};
 
-  const systemInstruction = `You are the Lead Auditor for The POWER Standard (Public Office Work Evidence and Results).
+  const systemInstruction = `You are the Plan Review Assistant for The POWER Standard (Public Office Work Evidence and Results).
 Your role is to conduct an impartial, rigorous, nonpartisan assessment of public policy proposals and candidate plans.
-The POWER Standard evaluates plans along 9 objective dimensions:
+Do not endorse, oppose, rank, score, or assign a letter grade to a plan or political actor.
+Do not convert multidimensional evidence into a composite score.
+Assess each dimension independently and preserve uncertainty.
+
+The POWER Standard reviews plans across 9 dimensions:
 1. Problem Precision (affected population, baseline metrics, measurement uncertainty disclosed)
 2. Statutory Authority (does the candidate/office have legal power, or is it outside municipal/charter jurisdiction?)
 3. Intervention Specificity (operational owners, concrete deliverables, timeline)
 4. Resource Realism (budget numbers, funding mechanisms, revenue offsets)
 5. Delivery Feasibility (milestones, decision gates, documented bottlenecks)
 6. Evidence & Causal Logic (distinguishes correlation from direct policy causation, cites empirical sources)
-7. Flourishing Outcomes (distribution across wards/demographics, acknowledges macroeconomic confounds)
-8. Institutional Veto Points (intergovernmental vetoes, court rulings, federal oversight, procurement hurdles)
+7. Flourishing Outcomes (distribution across relevant populations, acknowledges confounds)
+8. Institutional Veto Points (intergovernmental vetoes, court rulings, oversight, procurement hurdles)
 9. Accountability & Independent Audit (auditor specified, public correction log)
+
+For each dimension use only one status: "Substantial", "Partial", "Limited", "Insufficient", or "Unknown".
+A status describes completeness/evidentiary support; it is not a political quality score.
+If a legal or factual claim cannot be verified from supplied evidence, say Unknown or verification required.
 
 Return STRICT JSON only matching this schema:
 {
-  "overallScore": number (0-100),
-  "grade": string ("A - Exemplary Standard", "B - Substantial Rigor", "C - Lacks Key Controls", "D - Rhetorical / Unverifiable"),
   "summary": string,
+  "assessmentMatrix": [
+    {
+      "dimension": string,
+      "status": "Substantial" | "Partial" | "Limited" | "Insufficient" | "Unknown",
+      "basis": string,
+      "missingOrUnverified": string[]
+    }
+  ],
   "authorityAudit": {
-    "isAuthorized": boolean,
+    "status": "Supported" | "Partially Supported" | "Unsupported" | "Unknown",
     "statutoryAssessment": string,
-    "homeRuleOrFederalLimits": string
+    "jurisdictionalLimits": string
   },
   "causalLogicAudit": {
-    "confidenceLevel": "Direct" | "Correlated" | "Macro Trend" | "Unsubstantiated",
+    "confidenceLevel": "Direct" | "Correlated" | "Macro Trend" | "Unsubstantiated" | "Unknown",
     "assessment": string,
     "confoundingVariables": string[]
   },
   "vetoPointsIdentified": string[],
-  "flourishingEquityRisk": string,
+  "distributionalConsiderations": string,
   "evidentiaryGaps": string[],
   "actionableSuggestions": [
     {
@@ -190,10 +211,11 @@ Return STRICT JSON only matching this schema:
       "currentWeakness": string,
       "recommendedImprovement": string
     }
-  ]
+  ],
+  "methodologyNotice": string
 }`;
 
-  const userPrompt = `Audit the following POWER Plan submission:
+  const userPrompt = `Review the following POWER Plan submission:
 Plan Title: ${plan.planTitle || 'Untitled'}
 Target Office: ${plan.officeSoughtOrHeld || 'Unspecified'}
 Jurisdiction: ${plan.jurisdiction || 'District of Columbia'}
@@ -221,67 +243,74 @@ Independent Audit Commitment: ${plan.auditPlan || 'None'}
   try {
     const rawJson = await queryGemini(systemInstruction, userPrompt);
     const parsed = JSON.parse(rawJson);
-    res.json({ success: true, audit: parsed, source: 'gemini-3.8-flash' });
+    res.json({ success: true, audit: parsed, source: 'gemini-flash-latest' });
   } catch (err) {
-    // High-fidelity fallback auditor adhering strictly to the POWER Standard
-    console.warn('Gemini plan audit fallback triggered:', (err as Error).message);
+    console.warn('Gemini plan review fallback triggered:', (err as Error).message);
+
+    const statusFromPresence = (present: boolean): 'Partial' | 'Insufficient' =>
+      present ? 'Partial' : 'Insufficient';
+
     const hasLegalBasis = !!(plan.legalBasis && plan.legalBasis.length > 5);
     const hasBudget = Number(plan.estimatedCostTotal) > 0;
     const hasUncertainty = !!(plan.uncertaintyDisclosure && plan.uncertaintyDisclosure.length > 10);
     const hasVeto = !!(plan.vetoPoints && plan.vetoPoints.length > 10);
-    const score = 65 + (hasLegalBasis ? 10 : 0) + (hasBudget ? 10 : 0) + (hasUncertainty ? 8 : 0) + (hasVeto ? 7 : 0);
+    const hasProblem = !!(plan.baselineProblemStatement && plan.baselineProblemStatement.length > 10);
+    const hasIntervention = !!(plan.actionSummary && plan.actionSummary.length > 10);
+    const hasMilestones = !!(plan.milestones && String(plan.milestones).length > 10);
+    const hasSources = !!(plan.primarySources && String(plan.primarySources).length > 10);
+    const hasAudit = !!(plan.auditPlan && String(plan.auditPlan).length > 10);
 
     res.json({
       success: true,
       audit: {
-        overallScore: score,
-        grade: score >= 85 ? 'A - Exemplary Standard' : score >= 75 ? 'B - Substantial Rigor' : 'C - Lacks Key Controls',
-        summary: `Plan exhibits ${score >= 80 ? 'strong' : 'moderate'} methodological grounding under The POWER Standard v2.0. Problem and intervention are articulated, but statutory authority boundaries and macroeconomic confounding variables require heightened precision.`,
+        summary:
+          'Fallback review based only on fields supplied in the submission. It does not independently verify legal authority, factual claims, costs, or evidence.',
+        assessmentMatrix: [
+          { dimension: 'Problem Precision', status: statusFromPresence(hasProblem), basis: hasProblem ? 'A problem statement was supplied.' : 'No sufficiently detailed problem statement was supplied.', missingOrUnverified: ['Baseline evidence and measurement uncertainty require verification.'] },
+          { dimension: 'Statutory Authority', status: statusFromPresence(hasLegalBasis), basis: hasLegalBasis ? 'A legal basis was supplied but has not been independently verified.' : 'No explicit legal basis was supplied.', missingOrUnverified: ['Verify authority against current law and jurisdiction.'] },
+          { dimension: 'Intervention Specificity', status: statusFromPresence(hasIntervention), basis: hasIntervention ? 'An intervention summary was supplied.' : 'No sufficiently detailed intervention was supplied.', missingOrUnverified: ['Operational ownership and deliverables may require more detail.'] },
+          { dimension: 'Resource Realism', status: statusFromPresence(hasBudget), basis: hasBudget ? 'A non-zero estimated cost was supplied.' : 'No non-zero estimated cost was supplied.', missingOrUnverified: ['Funding source, appropriation mechanism, and cost basis require verification.'] },
+          { dimension: 'Delivery Feasibility', status: statusFromPresence(hasMilestones), basis: hasMilestones ? 'Milestones were supplied.' : 'No sufficiently detailed milestones were supplied.', missingOrUnverified: ['Dependencies, decision gates, and delivery assumptions require verification.'] },
+          { dimension: 'Evidence & Causal Logic', status: statusFromPresence(hasSources), basis: hasSources ? 'Sources were supplied but not independently checked.' : 'No sufficiently detailed primary sources were supplied.', missingOrUnverified: ['Source quality, causal logic, and confounding variables require review.'] },
+          { dimension: 'Flourishing Outcomes', status: plan.selectedFlourishingDomains?.length ? 'Partial' : 'Unknown', basis: plan.selectedFlourishingDomains?.length ? 'Outcome domains were selected.' : 'No outcome domains were supplied.', missingOrUnverified: ['Distributional effects and outcome measurement require evidence.'] },
+          { dimension: 'Institutional Veto Points', status: statusFromPresence(hasVeto), basis: hasVeto ? 'Veto points were supplied but not independently verified.' : 'No sufficiently detailed veto points were supplied.', missingOrUnverified: ['Formal and informal dependencies require jurisdiction-specific verification.'] },
+          { dimension: 'Accountability & Independent Audit', status: statusFromPresence(hasAudit), basis: hasAudit ? 'An audit/accountability plan was supplied.' : 'No sufficiently detailed audit plan was supplied.', missingOrUnverified: ['Independence, publication, and correction procedures require review.'] },
+        ],
         authorityAudit: {
-          isAuthorized: hasLegalBasis,
+          status: hasLegalBasis ? 'Partially Supported' : 'Unknown',
           statutoryAssessment: hasLegalBasis
-            ? `Cites statutory authority (${plan.legalBasis}), but must distinguish unilateral administrative action from required Council legislative amendments.`
-            : 'Lacks explicit statutory citation; authority cannot be verified under Home Rule Act.',
-          homeRuleOrFederalLimits: 'Requires intergovernmental coordination with independent agency leadership and federal statutory compliance.',
+            ? `Submission cites ${plan.legalBasis}; this fallback has not verified the citation or the scope of authority it establishes.`
+            : 'No explicit statutory citation was supplied; authority is unknown.',
+          jurisdictionalLimits: 'Unknown until current, jurisdiction-specific legal sources are reviewed.',
         },
         causalLogicAudit: {
-          confidenceLevel: 'Correlated',
-          assessment: 'The intervention aligns with evidence-based practices, but outcome indicators (such as violent crime or rent burden) are sensitive to national interest rates, regional migration, and federal macroeconomic shifts that are outside local control.',
-          confoundingVariables: [
-            'Regional cross-border procurement & economic mobility',
-            'Macroeconomic interest rate cycle impacting private housing development debt',
-            'Federal executive & judicial agency jurisdictional limits',
-          ],
+          confidenceLevel: 'Unknown',
+          assessment: 'Causal confidence cannot be established by the fallback rules engine from form completeness alone.',
+          confoundingVariables: [],
         },
-        vetoPointsIdentified: [
-          'Budget Support Act approval hurdle during Council legislative markup',
-          'Intergovernmental approval bottleneck across municipal and independent commissions',
-          'Procurement protest and regulatory rulemaking timeline delays',
-        ],
-        flourishingEquityRisk: 'Risk of uneven neighborhood implementation: benefits must be measured specifically by Ward disaggregation to avoid exacerbating East-West economic divides.',
+        vetoPointsIdentified: hasVeto ? [String(plan.vetoPoints)] : [],
+        distributionalConsiderations: 'Requires evidence and disaggregated analysis; no automatic equity conclusion is assigned.',
         evidentiaryGaps: [
-          'Needs baseline control group data from prior municipal pilot interventions',
-          'Requires explicit data-lag disclosure for annual census and agency reporting cycles',
+          'Independent verification of cited legal authority and public records.',
+          'Source-linked baseline, resource, implementation, and outcome evidence.',
+          ...(hasUncertainty ? [] : ['Explicit uncertainty and limitations disclosure.']),
         ],
         actionableSuggestions: [
           {
+            field: 'evidence',
+            currentWeakness: 'The fallback engine can assess field presence but cannot independently establish truth or legal validity.',
+            recommendedImprovement: 'Attach primary sources and specify what each source establishes and does not establish.',
+          },
+          {
             field: 'authority',
-            currentWeakness: 'Ambiguity regarding whether executive order or legislative code change is mandatory.',
-            recommendedImprovement: 'Explicitly specify whether the office can enact this unilaterally or requires a Council vote on a Budget Support Act subtitle.',
-          },
-          {
-            field: 'vetoPoints',
-            currentWeakness: 'Limited disclosure of procurement and administrative appeal blockers.',
-            recommendedImprovement: 'Add anticipated timeline for agency contract solicitation, administrative appeals, and collective bargaining committee signoff.',
-          },
-          {
-            field: 'flourishingOutcomes',
-            currentWeakness: 'Outcome targets risk being interpreted as simple direct policy results.',
-            recommendedImprovement: 'Include the POWER Standard causal caveat distinguishing programmatic outputs from broader macroeconomic trends.',
+            currentWeakness: hasLegalBasis ? 'Legal basis supplied but unverified.' : 'No legal basis supplied.',
+            recommendedImprovement: 'Provide current jurisdiction-specific authority and identify shared authority, prerequisites, and veto points.',
           },
         ],
+        methodologyNotice:
+          'No composite score or letter grade is produced. Each dimension is assessed independently; Unknown is a valid result.',
       },
-      source: 'power-standard-rules-engine',
+      source: 'power-standard-rules-engine-fallback',
     });
   }
 });
@@ -302,8 +331,10 @@ Deconstruct it into strict civic provenance categories:
 - epistemicCaveats: string explaining unmeasured confounds, data lag, or scope limits
 - establishes: string[] (what this claim/evidence actually proves)
 - doesNotEstablish: string[] (what it leaps over or cannot prove)
-- verificationChecklist: string[] (specific public documents — e.g. general ledger line item, FOIA request, agency quarterly audit — needed to independently verify)
+- verificationChecklist: string[] (specific public documents needed to independently verify)
 
+Do not treat an official source as universally true; identify only what the source can establish.
+Do not infer intent from correlation.
 Return STRICT JSON only matching that schema.`;
 
   const userPrompt = `Analyze this claim:
@@ -314,31 +345,29 @@ Context: ${context || 'Public official statement / policy announcement'}`;
   try {
     const rawJson = await queryGemini(systemInstruction, userPrompt);
     const parsed = JSON.parse(rawJson);
-    res.json({ success: true, analysis: parsed, source: 'gemini-3.8-flash' });
+    res.json({ success: true, analysis: parsed, source: 'gemini-flash-latest' });
   } catch (err) {
     console.warn('Gemini evidence analysis fallback:', (err as Error).message);
     res.json({
       success: true,
       analysis: {
         claimType: 'Causal Attribution',
-        evidentiaryStrength: 'Corroborative',
-        sourceClassification: 'Secondary Source',
-        epistemicCaveats: 'The claim links programmatic spending directly to outcome shifts, but fails to isolate confounding regional economic trends, demographic migration, or seasonal variance.',
-        establishes: [
-          'Documented public expenditure or administrative program activity was executed.',
-          'Directional correlation with targeted civic metrics over the measurement period.',
-        ],
+        evidentiaryStrength: 'Insufficient',
+        sourceClassification: 'Derived Analysis',
+        epistemicCaveats: 'Fallback demonstration analysis only. The supplied claim has not been independently sourced or verified.',
+        establishes: ['A claim was submitted for analysis.'],
         doesNotEstablish: [
-          'Counter-factual proof: does not prove that outcomes would not have changed anyway due to broader economic conditions.',
-          'Longitudinal durability past the immediate funding grant cycle.',
+          'That the underlying factual assertion is true.',
+          'That correlation establishes causation or intent.',
+          'That a cited institution or source supports the claim unless independently checked.',
         ],
         verificationChecklist: [
-          'Audited Annual Comprehensive Financial Report (ACFR) general ledger expenditure entries',
-          'Independent performance audit by the Office of the District of Columbia Auditor (ODCA)',
-          'Disaggregated neighborhood ward census or agency micro-data without seasonal smoothing',
+          'Obtain the relevant primary public record.',
+          'Confirm jurisdiction, effective date, and scope.',
+          'Identify corroborating or conflicting evidence.',
         ],
       },
-      source: 'power-standard-rules-engine',
+      source: 'power-standard-rules-engine-fallback',
     });
   }
 });
@@ -350,9 +379,11 @@ Context: ${context || 'Public official statement / policy announcement'}`;
 app.post('/api/ai/discover-authority', async (req, res) => {
   const { issueDescription, jurisdiction = 'District of Columbia' } = req.body || {};
 
-  const systemInstruction = `You are The POWER Standard Constitutional & Charter Authority Specialist.
-Given a public problem or desired civic reform in a specific jurisdiction (default Washington, DC / Home Rule), map the EXACT legal power structure.
-Civic participants frequently lobby the wrong institution (e.g. asking the DC Council to prosecute crimes when adult felony prosecution belongs to the US Attorney for DC under federal executive power).
+  const systemInstruction = `You are The POWER Standard Authority Research Assistant.
+Given a public problem or desired civic reform in a specific jurisdiction, map the likely legal power structure using supplied context.
+Do not claim exact legal authority unless supported by current source material in the request/context.
+Distinguish formal authority from informal influence, and identify uncertainty explicitly.
+This is civic research assistance, not legal advice.
 
 Return STRICT JSON only matching this schema:
 {
@@ -364,20 +395,21 @@ Return STRICT JSON only matching this schema:
     "statutoryPower": string
   },
   "sharedOrDependentEntities": string[],
-  "homeRuleOrFederalLimits": string,
+  "jurisdictionalLimits": string,
   "institutionalVetoPoints": string[],
   "actionableCivicLeveragePoint": string,
-  "powerStandardRecommendation": string
+  "powerStandardRecommendation": string,
+  "verificationRequired": string[]
 }`;
 
-  const userPrompt = `Map the statutory authority and institutional veto points for this civic problem:
+  const userPrompt = `Map the authority and institutional veto points for this civic problem:
 Issue: "${issueDescription || 'Affordable housing production and rent regulation'}"
 Jurisdiction: "${jurisdiction}"`;
 
   try {
     const rawJson = await queryGemini(systemInstruction, userPrompt);
     const parsed = JSON.parse(rawJson);
-    res.json({ success: true, authorityMapping: parsed, source: 'gemini-3.8-flash' });
+    res.json({ success: true, authorityMapping: parsed, source: 'gemini-flash-latest' });
   } catch (err) {
     console.warn('Gemini authority discovery fallback:', (err as Error).message);
     res.json({
@@ -385,26 +417,23 @@ Jurisdiction: "${jurisdiction}"`;
       authorityMapping: {
         issue: issueDescription || 'General Municipal Reform',
         primaryLegalAuthority: {
-          institution: 'Council of the District of Columbia & Relevant Executive Agency',
-          officeTitle: 'Committee Chair & Deputy Mayor for Operations',
-          legalBasis: 'District of Columbia Home Rule Act (P.L. 93-198; D.C. Official Code § 1-201.01 et seq.)',
-          statutoryPower: 'Legislative policymaking, annual budget appropriation, and agency performance oversight authority.',
+          institution: 'Unknown — jurisdiction-specific research required',
+          officeTitle: 'Unknown',
+          legalBasis: 'Not independently verified by fallback engine',
+          statutoryPower: 'Unknown',
         },
-        sharedOrDependentEntities: [
-          'Executive Office of the Mayor (regulatory enforcement & contract execution)',
-          'Independent Commissions (Zoning Commission, Historic Preservation Review Board, or Public Service Commission)',
-          'Federal oversight agencies where federal property or interstate compacts are implicated',
+        sharedOrDependentEntities: [],
+        jurisdictionalLimits: 'Unknown until current legal and administrative sources are reviewed.',
+        institutionalVetoPoints: [],
+        actionableCivicLeveragePoint: 'Identify the responsible institution and current formal participation process before recommending action.',
+        powerStandardRecommendation: 'Verify authority before accountability: attach current primary legal/administrative sources and map dependencies explicitly.',
+        verificationRequired: [
+          'Current statute, charter, regulation, order, or other controlling authority.',
+          'Current institutional responsibilities and delegated powers.',
+          'Current procedural requirements, dependencies, and veto points.',
         ],
-        homeRuleOrFederalLimits: 'Congress maintains 30-day legislative layover review power; municipal debt limits and balanced budget mandates apply under federal law.',
-        institutionalVetoPoints: [
-          'Council Committee on Business and Economic Development or Judiciary markup',
-          'Chief Financial Officer (CFO) Fiscal Impact Statement certification requirement',
-          'Independent board discretionary approvals or variances',
-        ],
-        actionableCivicLeveragePoint: 'Submit formal testimony during the annual Agency Performance Oversight and Budget Hearing cycles; engage Advisory Neighborhood Commissioners (ANCs) who possess "great weight" statutory advisory standing.',
-        powerStandardRecommendation: 'Audit whether candidates targeting this problem acknowledge the separation between executive procurement execution and legislative statutory enactment.',
       },
-      source: 'power-standard-rules-engine',
+      source: 'power-standard-rules-engine-fallback',
     });
   }
 });
@@ -417,14 +446,15 @@ app.post('/api/ai/simulate-tradeoffs', async (req, res) => {
   const { proposalA, proposalB, problemContext } = req.body || {};
 
   const systemInstruction = `You are The POWER Standard Nonpartisan Tradeoff Examiner.
-Compare two competing policy approaches to a public problem with complete neutrality and empirical rigor.
-Do NOT take sides or express political preferences.
+Compare two competing policy approaches using procedural impartiality and empirical discipline.
+Do NOT take sides, endorse, rank, score, or express political preferences.
+Do not create false balance: unequal evidence may receive unequal evidentiary weight, which must be explained.
 Examine:
-- Comparative Strengths of each proposal
-- Fiscal & Opportunity Cost Tradeoffs
-- Distribution across Flourishing Outcome Domains (Material security, Health, Education, Safety, Social cohesion, Environmental quality, Agency/voice, Meaning)
-- Equity Disparities by Ward or socioeconomic bracket
-- Unintended Systemic Consequences / Veto Risks
+- Comparative strengths and limitations of each proposal
+- Fiscal & opportunity-cost tradeoffs
+- Distribution across Flourishing Outcome Domains
+- Distributional effects where supported by evidence
+- Unintended systemic consequences / veto risks
 
 Return STRICT JSON only matching this schema:
 {
@@ -443,57 +473,46 @@ Return STRICT JSON only matching this schema:
     "fiscalTradeoff": string,
     "flourishingStrengths": string[]
   },
-  "wardLevelEquityImpact": string,
+  "distributionalImpact": string,
   "unintendedConsequencesAndRisks": string[],
-  "testableMetricsForVoters": string[]
+  "testableMetricsForPublicReview": string[],
+  "evidenceLimitations": string[]
 }`;
 
   const userPrompt = `Compare these two civic proposals for the problem "${problemContext || 'Municipal Policy Problem'}":
-Proposal A: ${JSON.stringify(proposalA || 'Market incentive & supply deregulation')}
-Proposal B: ${JSON.stringify(proposalB || 'Public direct subsidy & targeted regulation')}`;
+Proposal A: ${JSON.stringify(proposalA || 'Approach A')}
+Proposal B: ${JSON.stringify(proposalB || 'Approach B')}`;
 
   try {
     const rawJson = await queryGemini(systemInstruction, userPrompt);
     const parsed = JSON.parse(rawJson);
-    res.json({ success: true, comparison: parsed, source: 'gemini-3.8-flash' });
+    res.json({ success: true, comparison: parsed, source: 'gemini-flash-latest' });
   } catch (err) {
     console.warn('Gemini tradeoff simulation fallback:', (err as Error).message);
     res.json({
       success: true,
       comparison: {
-        nonpartisanOverview: 'Both proposals target genuine municipal friction points but deploy fundamentally different fiscal and regulatory mechanisms with distinct distributional impacts across the 8 Flourishing Domains.',
+        nonpartisanOverview: 'Fallback mode cannot substantively compare the proposals without independently verified evidence. The entries below identify the need for structured comparison rather than supplying policy conclusions.',
         approachA: {
-          title: proposalA?.title || 'Approach A: Regulatory Streamlining & Private Sector Incentives',
-          coreMechanism: 'Lowers barriers to entry, accelerates development timelines, and leverages private balance sheets.',
-          primaryBenefits: [
-            'Rapid capital deployment without expanding direct public debt',
-            'Broad market volume expansion and municipal tax base growth',
-          ],
-          fiscalTradeoff: 'Requires tax abatements or zoning density bonuses rather than direct appropriated general fund outlays.',
-          flourishingStrengths: ['Material security (aggregate supply)', 'Agency and voice (private enterprise initiative)'],
+          title: proposalA?.title || 'Approach A',
+          coreMechanism: 'Requires review from the submitted proposal and supporting sources.',
+          primaryBenefits: [],
+          fiscalTradeoff: 'Unknown until costs, funding mechanisms, and opportunity costs are sourced.',
+          flourishingStrengths: [],
         },
         approachB: {
-          title: proposalB?.title || 'Approach B: Targeted Public Subsidies & Deep Affordability Mandates',
-          coreMechanism: 'Direct public capitalization, deed-restricted covenant units, and targeted safety-net protections.',
-          primaryBenefits: [
-            'Guarantees units or services for residents earning under 30% Area Median Income (AMI)',
-            'Insulates vulnerable populations from short-term market price spikes',
-          ],
-          fiscalTradeoff: 'High ongoing general fund subsidy cost per beneficiary unit, dependent on annual tax revenue yields.',
-          flourishingStrengths: ['Material security (deep equity targeting)', 'Social and civic life (prevents displacement)'],
+          title: proposalB?.title || 'Approach B',
+          coreMechanism: 'Requires review from the submitted proposal and supporting sources.',
+          primaryBenefits: [],
+          fiscalTradeoff: 'Unknown until costs, funding mechanisms, and opportunity costs are sourced.',
+          flourishingStrengths: [],
         },
-        wardLevelEquityImpact: 'Approach A tends to produce faster volume in high-amenity wards with strong market absorption; Approach B directly targets Wards 7 and 8 but faces per-unit subsidy budget constraints.',
-        unintendedConsequencesAndRisks: [
-          'Approach A risk: Supply growth may not filter down to extremely low-income households in the short term.',
-          'Approach B risk: Deep covenant requirements can stall project financial closes if construction interest rates rise.',
-        ],
-        testableMetricsForVoters: [
-          'Net affordable units delivered per million dollars of public capital expended',
-          'Disaggregated retention rate of existing legacy residents at 3- and 5-year milestones',
-          'Median rent-to-income ratio across lowest income quintiles',
-        ],
+        distributionalImpact: 'Unknown until relevant disaggregated evidence is supplied.',
+        unintendedConsequencesAndRisks: [],
+        testableMetricsForPublicReview: [],
+        evidenceLimitations: ['Fallback demonstration mode does not independently verify policy evidence or causal claims.'],
       },
-      source: 'power-standard-rules-engine',
+      source: 'power-standard-rules-engine-fallback',
     });
   }
 });
@@ -506,51 +525,57 @@ app.post('/api/ai/examine-influence', async (req, res) => {
   const { entityName, officialName, contributions, legislativeAction } = req.body || {};
 
   const systemInstruction = `You are The POWER Standard Ethics & Campaign Transparency Analyst.
-Examine disclosed contributions, lobbying records, and legislative actions with strict nonpartisan balance and legal accuracy.
+Examine disclosed contributions, lobbying records, and legislative actions with strict evidentiary discipline.
 CRITICAL MANDATORY SAFEGUARD:
-You MUST NEVER assert corrupt intent, bribery, or illegal quid-pro-quo unless an official criminal indictment or ethics board sanction is on the public record.
-Campaign contributions and petitioning the government are constitutionally protected activities under the First Amendment.
-Your task is to identify CHRONOLOGICAL CORRELATIONS, evidentiary status, and constructive public transparency questions.
+You MUST NEVER assert corrupt intent, bribery, or illegal quid-pro-quo unless an authoritative adjudicative or official public record establishes the relevant finding.
+A chronological relationship is not proof of causation or improper influence.
+Your task is to identify chronology, evidentiary status, source gaps, and constructive transparency questions.
 
 Return STRICT JSON only matching this schema:
 {
   "entityName": string,
   "officialName": string,
   "chronologySummary": string,
-  "evidentiaryClassification": "Chronological Correlation Only" | "Procedural Disclosure Milestone" | "Statutory Conflict Under Active Review" | "Standard Regulated Civic Engagement",
+  "evidentiaryClassification": "Chronological Correlation Only" | "Procedural Disclosure Milestone" | "Official Finding Under Review" | "Standard Regulated Civic Engagement" | "Insufficient Evidence",
   "epistemicDisclaimer": string,
   "transparencyQuestionsForPublic": string[],
-  "statutoryFrameworkApplicable": string
+  "statutoryFrameworkApplicable": string,
+  "verificationRequired": string[]
 }`;
 
   const userPrompt = `Examine this influence and ethics record:
-Donor / Entity: ${entityName || 'Commercial Real Estate Development Coalition'}
-Public Official / Body: ${officialName || 'Committee on Business and Economic Development'}
-Disclosed Contributions / Lobbying: ${contributions || '$12,500 across affiliated PACs during election cycle'}
-Legislative / Procurement Action: ${legislativeAction || 'Vote approving tax increment financing (TIF) authorization subtitle'}`;
+Donor / Entity: ${entityName || 'Unspecified Entity'}
+Public Official / Body: ${officialName || 'Unspecified Official / Body'}
+Disclosed Contributions / Lobbying: ${contributions || 'No verified record supplied'}
+Legislative / Procurement Action: ${legislativeAction || 'No verified action supplied'}`;
 
   try {
     const rawJson = await queryGemini(systemInstruction, userPrompt);
     const parsed = JSON.parse(rawJson);
-    res.json({ success: true, examination: parsed, source: 'gemini-3.8-flash' });
+    res.json({ success: true, examination: parsed, source: 'gemini-flash-latest' });
   } catch (err) {
     console.warn('Gemini ethics examination fallback:', (err as Error).message);
     res.json({
       success: true,
       examination: {
-        entityName: entityName || 'Disclosed Donor Entity',
-        officialName: officialName || 'Elected Official / Committee',
-        chronologySummary: 'Public records document campaign donations or lobbying registrations occurring within the 18 months preceding the legislative or procurement milestone.',
-        evidentiaryClassification: 'Chronological Correlation Only',
-        epistemicDisclaimer: 'The POWER Standard explicitly notes: Chronological correlation between campaign contributions and legislative votes does NOT prove causation, improper influence, or quid-pro-quo. Contributions are regulated under D.C. Official Code § 1-1163.33 and the First Amendment.',
+        entityName: entityName || 'Unspecified Entity',
+        officialName: officialName || 'Unspecified Official / Body',
+        chronologySummary: 'Fallback mode cannot establish chronology without verified source records.',
+        evidentiaryClassification: 'Insufficient Evidence',
+        epistemicDisclaimer: 'No inference of improper influence, corrupt intent, causation, or wrongdoing should be drawn from unverified or merely chronological information.',
         transparencyQuestionsForPublic: [
-          'Were all contributions fully disclosed within statutory deadlines on the Office of Campaign Finance (OCF) public database?',
-          'Did the public official recuse themselves from board votes where personal financial conflicts of interest could exist under BEGA standards?',
-          'Did competing public stakeholders or community organizations receive equivalent committee hearing time?',
+          'What primary disclosure records establish the contribution or lobbying activity?',
+          'What official record establishes the government action and date?',
+          'Are there applicable recusal, disclosure, or ethics rules, and what source establishes them?',
         ],
-        statutoryFrameworkApplicable: 'D.C. Board of Ethics and Government Accountability (BEGA) Establishment Act & D.C. Campaign Finance Act',
+        statutoryFrameworkApplicable: 'Unknown until current jurisdiction-specific law and ethics rules are verified.',
+        verificationRequired: [
+          'Primary campaign-finance or lobbying disclosure records.',
+          'Official legislative, regulatory, procurement, or ethics records.',
+          'Current jurisdiction-specific statutory framework.',
+        ],
       },
-      source: 'power-standard-rules-engine',
+      source: 'power-standard-rules-engine-fallback',
     });
   }
 });
