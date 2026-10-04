@@ -184,7 +184,9 @@ POWER is being developed as public-interest civic infrastructure and welcomes co
 - civic participation research;
 - governance and methodology design.
 
-A formal contributor guide, issue taxonomy, roadmap, and project-governance process are planned as the repository matures.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution standards, workflow, evidence requirements, accessibility expectations, and suggested first contributions.
+
+See [ROADMAP.md](./ROADMAP.md) for current priorities, validation phases, contributor-readiness work, and the path from prototype to validated civic infrastructure.
 
 ## Project direction
 
