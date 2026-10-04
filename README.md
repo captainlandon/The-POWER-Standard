@@ -140,6 +140,21 @@ POWER is under active development and validation. The current work includes:
 
 This repository should be treated as a developing project rather than a finished public authority or production data service.
 
+## Prototype data and verification status
+
+The prototype contains a mixture of real public institutions, laws, reports, and policy examples together with demonstration records used to test POWER's data model and interface. **A real institution or source name does not automatically mean that every associated prototype claim has been independently verified.**
+
+For public-release safety, unresolved records are treated conservatively as demonstration data until their exact source, date, jurisdiction, scope, and claim boundaries have been checked. A source is considered evidence only for what it actually establishes.
+
+See:
+
+- [DATA_VERIFICATION_LOG.md](./DATA_VERIFICATION_LOG.md) for record-by-record verification decisions and corrections;
+- [PROTOTYPE_DATA_POLICY.md](./PROTOTYPE_DATA_POLICY.md) for publication-status rules;
+- [PUBLIC_RELEASE_CHECKLIST.md](./PUBLIC_RELEASE_CHECKLIST.md) for the repository publication gate;
+- [SOURCE_DATA_CLEANUP_PLAN.md](./SOURCE_DATA_CLEANUP_PLAN.md) for the path from demonstration data to source-level verified records.
+
+The repository also includes an automated release-readiness check that runs type checking, civic-data release checks, and a production build. Automation supplements manual verification; it does not replace it.
+
 ## Technology
 
 The current prototype uses:
@@ -187,6 +202,12 @@ POWER is being developed as public-interest civic infrastructure and welcomes co
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for contribution standards, workflow, evidence requirements, accessibility expectations, and suggested first contributions.
 
 See [ROADMAP.md](./ROADMAP.md) for current priorities, validation phases, contributor-readiness work, and the path from prototype to validated civic infrastructure.
+
+Security-sensitive findings should follow [SECURITY.md](./SECURITY.md) rather than being posted publicly before remediation.
+
+## License
+
+This repository is licensed under the terms in [LICENSE](./LICENSE).
 
 ## Project direction
 
