@@ -24,6 +24,32 @@ Contributors are welcome across technical and non-technical areas, including:
 
 You do not need to be a software engineer to make a useful contribution.
 
+## First contribution: a quick path
+
+POWER is a developing prototype. Before treating any displayed civic record as a verified fact,
+read the [prototype-data policy](./PROTOTYPE_DATA_POLICY.md) and the
+[data-verification log](./DATA_VERIFICATION_LOG.md).
+
+For a small code or documentation contribution:
+
+1. Choose an open issue and check its discussion for existing work before starting.
+2. Use Node.js 22, the version used by the repository's release-readiness workflow.
+3. Install the dependencies without creating a lockfile:
+
+   ```bash
+   npm install --no-package-lock
+   ```
+
+4. Start the local prototype with `npm run dev`, then open `http://localhost:3000`.
+5. Before opening a pull request, run the same combined check used to verify the project:
+
+   ```bash
+   npm run check
+   ```
+
+`npm run check` runs type checking, the public-release audit, and a production build. If a
+change affects an interaction, also inspect it at desktop and mobile widths.
+
 ## Before contributing
 
 Please familiarize yourself with the project principles in the [README](./README.md), especially:
