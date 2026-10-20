@@ -20,7 +20,7 @@ export const RetrospectiveView: React.FC<{ onNavigate: (view: string) => void }>
   const events = selected ? dataset.events.filter(item => item.caseId === selected.id)
     .sort((a, b) => (a.date.value ?? '').localeCompare(b.date.value ?? '')) : [];
   const claims = selected ? dataset.claims.filter(item => item.caseId === selected.id) : [];
-  const sourceIds = new Set(claims.flatMap(item => item.sourceLinks.map(link => link.sourceId)));
+  const sourceIds = new Set([...(selected?.policyIds.flatMap(id => dataset.policies.find(policy => policy.id === id)?.sourceIds ?? []) ?? []), ...claims.flatMap(item => item.sourceLinks.map(link => link.sourceId)), ...dataset.sources.filter(source => source.id === 'source-nara-rg31' || source.id === 'source-hud-90years').map(source => source.id)]);
   const sources = dataset.sources.filter(source => sourceIds.has(source.id));
 
   return (
@@ -86,16 +86,18 @@ export const RetrospectiveView: React.FC<{ onNavigate: (view: string) => void }>
             <h3 className="font-serif text-xl font-bold">Historical chronology</h3>
             {events.length ? events.map(event => <article key={event.id} className="border-l-2 border-[#2457A7] pl-5 py-2">
               <p className="text-xs text-slate-600">{dateLabel(event.date)} · {event.eventType}</p>
-              <h4 className="font-semibold">{event.title}</h4><p className="text-sm">{event.summary}</p>
-            </article>) : <p className="rounded-lg bg-slate-100 p-5 text-sm">No verified timeline events are currently published for this case.</p>}
+              <p className="text-xs text-amber-800">Research intake · Not independently approved</p><h4 className="font-semibold">{event.title}</h4><p className="text-sm">{event.summary}</p>
+            </article>) : <p className="rounded-lg bg-slate-100 p-5 text-sm">No timeline events have been entered yet.</p>}
           </div>}
           {panel === 'evidence' && <div role="tabpanel" className="space-y-4">
             <h3 className="font-serif text-xl font-bold flex items-center gap-2"><FileSearch/> Historical evidence</h3>
+            <p className="text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-lg p-3">Research intake only. None of these claims or sources has completed human approval.</p>
+            {claims.map(claim => <article key={claim.id} className="bg-white rounded-lg border p-4 space-y-2"><p className="font-semibold">{claim.text}</p><p className="text-xs text-amber-800">Draft claim · {claim.claimType} · {claim.reviewState}</p>{claim.sourceLinks.map(link => <div key={link.sourceId} className="text-sm bg-slate-50 rounded p-3"><p><strong>Source locator:</strong> {link.locator}</p><p><strong>Establishes:</strong> {link.establishes}</p><p className="font-semibold mt-2">Does not establish:</p><ul className="list-disc pl-5">{link.doesNotEstablish.map(note => <li key={note}>{note}</li>)}</ul></div>)}</article>)}
             {sources.length ? sources.map(source => <article key={source.id} className="bg-white rounded-lg border p-4">
               <h4 className="font-semibold">{source.title}</h4>
               <p className="text-xs text-slate-500">{source.issuingBody} · Review: {source.verificationState}</p>
               <a href={source.canonicalUrl} rel="noopener noreferrer" target="_blank" className="inline-flex items-center gap-1 text-[#2457A7] text-sm mt-2">Inspect source <ExternalLink size={14}/></a>
-            </article>) : <p className="bg-slate-100 rounded-lg p-5 text-sm">No reviewed source-linked claims have been added yet. Research sources will appear here after intake and review.</p>}
+            </article>) : <p className="bg-slate-100 rounded-lg p-5 text-sm">No source references have been added yet.</p>}
             <button type="button" onClick={() => onNavigate('methodology')} className="text-sm text-[#2457A7] hover:underline flex items-center gap-2"><BookOpen size={16}/> Read POWER evidence methodology</button>
           </div>}
           {panel === 'limitations' && <div role="tabpanel" className="space-y-3">
