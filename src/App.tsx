@@ -27,6 +27,7 @@ import { EthicsSignalsView } from './views/EthicsSignalsView';
 import { CivicWireAndPartiesView } from './views/CivicWireAndPartiesView';
 import { ResearchApiView } from './views/ResearchApiView';
 import { PowerLearnView } from './views/PowerLearnView';
+import { RetrospectiveView } from './views/RetrospectiveView';
 
 import { EVIDENCE_STORE, INITIAL_CORRECTIONS } from './data/mockData';
 import { EvidenceItem, CorrectionSubmission, FeedbackSubmission } from './types/power';
@@ -270,6 +271,8 @@ export default function App() {
         {currentView === 'research-api' && (
           <ResearchApiView />
         )}
+
+        {currentView === 'retrospective' && <RetrospectiveView onNavigate={handleNavigate} />}
 
         {currentView === 'power-learn' && (
           <PowerLearnView
