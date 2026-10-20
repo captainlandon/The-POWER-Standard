@@ -95,6 +95,28 @@ export const retrospectivePilot: RetrospectiveDataset = {
     sourceType: 'Secondary', canonicalUrl: hud,
     published: { value: '2024-06-27', precision: 'day' },
     retrievedAt: '2026-10-20', verificationState: 'draft'
+  }  ,{
+    id: 'source-fed-redlining-history',
+    title: 'Redlining (Federal Reserve History, 2023)',
+    issuingBody: 'Federal Reserve History',
+    sourceType: 'Secondary', canonicalUrl: 'https://www.federalreservehistory.org/essays/redlining',
+    published: { value: '2023-06-02', precision: 'day' },
+    retrievedAt: '2026-10-20', verificationState: 'draft',
+    rightsOrAccessNotes: 'Research intake only; details require comparison with contemporaneous FHA manuals.'
+  },{
+    id: 'source-fishback-redlining',
+    title: 'New Evidence on Redlining by Federal Housing Programs in the 1930s',
+    issuingBody: 'Fishback, Rose, Snowden and Storrs, Journal of Urban Economics',
+    sourceType: 'Secondary', canonicalUrl: 'https://www.sciencedirect.com/science/article/pii/S0094119022000390',
+    published: { value: '2024', precision: 'year' }, retrievedAt: '2026-10-20',
+    verificationState: 'draft', rightsOrAccessNotes: 'Peer-reviewed empirical research; methodological audit and replication review pending.'
+  },{
+    id: 'source-aaronson-holc',
+    title: 'The Effects of the 1930s HOLC Redlining Maps',
+    issuingBody: 'Aaronson, Hartley and Mazumder, American Economic Journal: Economic Policy',
+    sourceType: 'Secondary', canonicalUrl: 'https://www.aeaweb.org/articles?id=10.1257%2Fpol.20190414',
+    published: { value: '2021-11', precision: 'month' }, retrievedAt: '2026-10-20',
+    verificationState: 'draft', rightsOrAccessNotes: 'Causal research on HOLC map boundaries, not a direct estimate of FHA insurance effects.'
   }],
   relationships: [], outcomes: []
 };
