@@ -96,6 +96,16 @@ export const retrospectivePilot: RetrospectiveDataset = {
     published: { value: '2024-06-27', precision: 'day' },
     retrievedAt: '2026-10-20', verificationState: 'draft'
   }  ,{
+    id: 'source-fraser-fha-1938',
+    title: 'FHA Underwriting Manual, revisions through February 1938',
+    issuingBody: 'Federal Housing Administration / U.S. Government Printing Office',
+    sourceType: 'Primary',
+    canonicalUrl: 'https://fraser.stlouisfed.org/title/underwriting-manual-6279/underwriting-manual-602319',
+    published: { value: '1938-02', precision: 'month' },
+    retrievedAt: '2026-10-25', archiveIdentifier: 'FRASER item 602319',
+    verificationState: 'draft',
+    rightsOrAccessNotes: 'Original-document edition located; individual scanned paragraphs are not yet verified against claimed passages.'
+  },{
     id: 'source-fed-redlining-history',
     title: 'Redlining (Federal Reserve History, 2023)',
     issuingBody: 'Federal Reserve History',
