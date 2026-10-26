@@ -59,6 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'evidence', label: 'Evidence' },
     { id: 'civic-wire', label: 'Civic Wire' },
     { id: 'research-api', label: 'Research' },
+    { id: 'retrospective', label: 'History' },
   ];
 
   // Secondary Modules organized cleanly under "Explore" (Section 7)
