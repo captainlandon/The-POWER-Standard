@@ -20,7 +20,7 @@ export const RetrospectiveView: React.FC<{ onNavigate: (view: string) => void }>
   const events = selected ? dataset.events.filter(item => item.caseId === selected.id)
     .sort((a, b) => (a.date.value ?? '').localeCompare(b.date.value ?? '')) : [];
   const claims = selected ? dataset.claims.filter(item => item.caseId === selected.id) : [];
-  const sourceIds = new Set([...(selected?.policyIds.flatMap(id => dataset.policies.find(policy => policy.id === id)?.sourceIds ?? []) ?? []), ...claims.flatMap(item => item.sourceLinks.map(link => link.sourceId)), ...dataset.sources.filter(source => ['source-nara-rg31', 'source-hud-90years', 'source-fed-redlining-history', 'source-fishback-redlining', 'source-aaronson-holc'].includes(source.id)).map(source => source.id)]);
+  const sourceIds = new Set([...(selected?.policyIds.flatMap(id => dataset.policies.find(policy => policy.id === id)?.sourceIds ?? []) ?? []), ...claims.flatMap(item => item.sourceLinks.map(link => link.sourceId)), ...dataset.sources.filter(source => ['source-fraser-fha-1938', 'source-nara-rg31', 'source-hud-90years', 'source-fed-redlining-history', 'source-fishback-redlining', 'source-aaronson-holc'].includes(source.id)).map(source => source.id)]);
   const sources = dataset.sources.filter(source => sourceIds.has(source.id));
 
   return (
