@@ -99,3 +99,9 @@ Status is conservative: **proposed** unless evidence establishes a specific impl
 ## Change control
 
 Only change status when there is a supporting commit, reviewer signoff, test, or governing decision. Keep recommendation IDs stable; mark superseded or merged recommendations explicitly rather than deleting their history.
+
+## New focused issue ownership
+- [#13 American Civic Covenant](https://github.com/captainlandon/The-POWER-Standard/issues/13): H03–H05.
+- [#14 End-to-end civic accountability demonstration](https://github.com/captainlandon/The-POWER-Standard/issues/14): P01/P05–P10 and D01/D02/D10; coordinates rather than duplicates existing research and data tickets.
+
+**Inventory count:** 72 recommendations, grouped under seven families.
