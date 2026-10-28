@@ -1,8 +1,44 @@
 # The POWER Standard
 
-**The POWER Standard is a nonpartisan civic-accountability platform that connects public problems, institutional authority, public plans, implementation, outcomes, and evidence so people can see who can act, what was promised, what happened, and what remains unresolved.**
+**Participation is voluntary. Accountability is not.**
 
-> “Knowledge will forever govern ignorance; and a people who mean to be their own governors must arm themselves with the power which knowledge gives.” — James Madison
+**POWER (Public Office Work Evidence and Results)** is an open-source, nonpartisan civic-accountability project connecting public problems, governmental authority, plans, implementation, outcomes, and the evidence behind them.
+
+**We are building in public and seeking contributors, technical collaborators, research partners, and prospective co-founders.** The repository contains a working prototype and developing research, **not a production-ready civic-data service**.
+
+[Explore beginner-friendly issues](https://github.com/captainlandon/The-POWER-Standard/issues) · [Start contributing](./CONTRIBUTING.md) · [See the roadmap](./ROADMAP.md) · [Discuss an idea](https://github.com/captainlandon/The-POWER-Standard/issues/new) · [Review release limitations](./PUBLIC_RELEASE_CHECKLIST.md)
+
+## Start here: find a way to contribute
+
+| Your expertise | Useful starting point |
+|---|---|
+| React / TypeScript / testing | [Evidence display issue #6](https://github.com/captainlandon/The-POWER-Standard/issues/6) |
+| Public records / civic data | [Real DC dataset issue #4](https://github.com/captainlandon/The-POWER-Standard/issues/4) |
+| UX / accessibility | [Accessibility issue #5](https://github.com/captainlandon/The-POWER-Standard/issues/5) |
+| Civic research / government process | [Decision-process research issue #7](https://github.com/captainlandon/The-POWER-Standard/issues/7) |
+| Product architecture / history | [American Civic Covenant issue #13](https://github.com/captainlandon/The-POWER-Standard/issues/13) |
+| Documentation / new contributor | [Documentation issue #1](https://github.com/captainlandon/The-POWER-Standard/issues/1) |
+
+**New here?** Read [CONTRIBUTING.md](./CONTRIBUTING.md), comment on an issue describing your approach, and start with a small, reviewable PR. **Not technical?** Primary-source checking, plain-language writing, and user testing are equally valuable. For partnership or co-founder interest, open a focused introductory issue without sharing private information, or initiate contact through a professional channel.
+
+## Run the prototype locally
+
+Prerequisites: a recent Node.js release compatible with Vite 8 and npm. Use the repository's lockfile and environment template where provided.
+
+```bash
+npm install
+npm run dev
+```
+
+Then follow the local URL printed by the development server. Optional AI functionality requires separately configured credentials; never commit keys. Before opening a PR, run:
+
+```bash
+npm run check
+```
+
+**Important:** Some interfaces contain demonstrative records. Do not interpret prototype content as independently verified governmental findings.
+
+---
 
 ## Why POWER exists
 
