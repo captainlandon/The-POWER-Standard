@@ -105,3 +105,25 @@ Only change status when there is a supporting commit, reviewer signoff, test, or
 - [#14 End-to-end civic accountability demonstration](https://github.com/captainlandon/The-POWER-Standard/issues/14): P01/P05–P10 and D01/D02/D10; coordinates rather than duplicates existing research and data tickets.
 
 **Inventory count:** 72 recommendations, grouped under seven families.
+
+## October 28 briefing audit addendum
+
+These are **proposals**, not implemented features. They derive from the October 28 Actualization Daily Brief, October 26 Innovatio Realization Review, and follow-up review of POWER methodology.
+
+| ID | Recommendation | Priority | Status | Trace | Acceptance |
+|---|---|---|---|---|---|
+| N01 | Information timeliness, including whether disclosure occurs before relevant civic decisions | P0 | proposed | [#16](https://github.com/captainlandon/The-POWER-Standard/issues/16) | Timely, late, unavailable and unknown examples with sourced deadlines |
+| N02 | Disclosure-system reliability, outages, restoration and fallback channels | P1 | proposed | [#16](https://github.com/captainlandon/The-POWER-Standard/issues/16) | Time-stamped outage record with bounded facts |
+| N03 | Eviction-resolution process record | P1 | proposed | P10 / C03 | Define filing, mediation, counsel, intervention and durable outcomes |
+| N04 | Administrative delay and burden indicators | P1 | proposed | P10 / X03 | Dated duration and burden data with causal caveats |
+| N05 | Community-created substitute service or access | P1 | proposed | C05 / C08 | Distinguish institution and community actions |
+| N06 | Costs shifted to residents and volunteers | P1 | proposed | X03 | Trace documented time, travel and expenses |
+| N07 | Policy Analysis Protocol in POWER Plans | P0 | proposed | [#17](https://github.com/captainlandon/The-POWER-Standard/issues/17) | Complete multi-step plan with causal model, alternatives and feasibility |
+| N08 | Realization evidence ladder: code, CI, deployment, use, benefit | P0 | proposed | [#18](https://github.com/captainlandon/The-POWER-Standard/issues/18) | Independent stage-gate evidence and live demonstration |
+| N09 | Public consultation package and feedback history | P1 | proposed | G04 / C04 | Accessible comments and documented disposition |
+| N10 | Normative purpose review without a universal ideological verdict | P1 | proposed | [#13](https://github.com/captainlandon/The-POWER-Standard/issues/13) | Source-cited, period-correct legal and interpretive context |
+
+### Prioritization rule
+N01, N07 and N08 are foundational upgrades; N02–N06, N09, N10 refine existing modules rather than justify new stand-alone products. Do not turn a news brief into a verified POWER case without rechecking primary records.
+
+**Register totals:** 72 original items + 10 proposed October 28 additions = 82 tracked recommendations (some additions refine existing requirements, not distinct modules).
