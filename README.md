@@ -40,6 +40,18 @@ npm run check
 
 ---
 
+## Three core instruments
+
+**POWER Plans: What will you do and how?** A proposed common planning standard for candidates and public institutions, addressing authority, causal logic, alternative approaches, costs, implementation, dependencies, and measurable outcomes. [Contribute to the Policy Analysis Protocol](https://github.com/captainlandon/The-POWER-Standard/issues/17).
+
+**Mandate Ledger: What actually happened?** A traceable record of commitments, legislation, budgets, implementation, obstacles and outcomes, distinguished from announcements and promises.
+
+**POWER Retrospective: What can history establish?** Historical decisions and consequences examined against original documents, applicable law, and clearly bounded evidence. [Explore the research-in-progress](https://github.com/captainlandon/The-POWER-Standard/pull/11).
+
+All three share an evidence standard and the developing [American Civic Covenant](https://github.com/captainlandon/The-POWER-Standard/issues/13). The project does not assign a single ideological or political score.
+
+**Evidence is useful only when it is accurate, traceable, and available in time.** New work will consider disclosure delays and system availability ([issue #16](https://github.com/captainlandon/The-POWER-Standard/issues/16)), and distinguish built code from deployment, authentic use, and proven benefit ([issue #18](https://github.com/captainlandon/The-POWER-Standard/issues/18)).
+
 ## Why POWER exists
 
 Public accountability is difficult because the relevant information is fragmented across campaigns, legislation, budgets, agencies, public records, government websites, and news coverage. Residents are often left to answer basic questions on their own:
