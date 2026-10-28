@@ -1,8 +1,56 @@
 # The POWER Standard
 
-**The POWER Standard is a nonpartisan civic-accountability platform that connects public problems, institutional authority, public plans, implementation, outcomes, and evidence so people can see who can act, what was promised, what happened, and what remains unresolved.**
+**Participation is voluntary. Accountability is not.**
 
-> “Knowledge will forever govern ignorance; and a people who mean to be their own governors must arm themselves with the power which knowledge gives.” — James Madison
+**POWER (Public Office Work Evidence and Results)** is an open-source, nonpartisan civic-accountability project connecting public problems, governmental authority, plans, implementation, outcomes, and the evidence behind them.
+
+**We are building in public and seeking contributors, technical collaborators, research partners, and prospective co-founders.** The repository contains a working prototype and developing research, **not a production-ready civic-data service**.
+
+[Explore beginner-friendly issues](https://github.com/captainlandon/The-POWER-Standard/issues) · [Start contributing](./CONTRIBUTING.md) · [See the roadmap](./ROADMAP.md) · [Discuss an idea](https://github.com/captainlandon/The-POWER-Standard/issues/new) · [Review release limitations](./PUBLIC_RELEASE_CHECKLIST.md)
+
+## Start here: find a way to contribute
+
+| Your expertise | Useful starting point |
+|---|---|
+| React / TypeScript / testing | [Evidence display issue #6](https://github.com/captainlandon/The-POWER-Standard/issues/6) |
+| Public records / civic data | [Real DC dataset issue #4](https://github.com/captainlandon/The-POWER-Standard/issues/4) |
+| UX / accessibility | [Accessibility issue #5](https://github.com/captainlandon/The-POWER-Standard/issues/5) |
+| Civic research / government process | [Decision-process research issue #7](https://github.com/captainlandon/The-POWER-Standard/issues/7) |
+| Product architecture / history | [American Civic Covenant issue #13](https://github.com/captainlandon/The-POWER-Standard/issues/13) |
+| Documentation / new contributor | [Documentation issue #1](https://github.com/captainlandon/The-POWER-Standard/issues/1) |
+
+**New here?** Read [CONTRIBUTING.md](./CONTRIBUTING.md), comment on an issue describing your approach, and start with a small, reviewable PR. **Not technical?** Primary-source checking, plain-language writing, and user testing are equally valuable. For partnership or co-founder interest, open a focused introductory issue without sharing private information, or initiate contact through a professional channel.
+
+## Run the prototype locally
+
+Prerequisites: a recent Node.js release compatible with Vite 8 and npm. Use the repository's lockfile and environment template where provided.
+
+```bash
+npm install
+npm run dev
+```
+
+Then follow the local URL printed by the development server. Optional AI functionality requires separately configured credentials; never commit keys. Before opening a PR, run:
+
+```bash
+npm run check
+```
+
+**Important:** Some interfaces contain demonstrative records. Do not interpret prototype content as independently verified governmental findings.
+
+---
+
+## Three core instruments
+
+**POWER Plans: What will you do and how?** A proposed common planning standard for candidates and public institutions, addressing authority, causal logic, alternative approaches, costs, implementation, dependencies, and measurable outcomes. [Contribute to the Policy Analysis Protocol](https://github.com/captainlandon/The-POWER-Standard/issues/17).
+
+**Mandate Ledger: What actually happened?** A traceable record of commitments, legislation, budgets, implementation, obstacles and outcomes, distinguished from announcements and promises.
+
+**POWER Retrospective: What can history establish?** Historical decisions and consequences examined against original documents, applicable law, and clearly bounded evidence. [Explore the research-in-progress](https://github.com/captainlandon/The-POWER-Standard/pull/11).
+
+All three share an evidence standard and the developing [American Civic Covenant](https://github.com/captainlandon/The-POWER-Standard/issues/13). The project does not assign a single ideological or political score.
+
+**Evidence is useful only when it is accurate, traceable, and available in time.** New work will consider disclosure delays and system availability ([issue #16](https://github.com/captainlandon/The-POWER-Standard/issues/16)), and distinguish built code from deployment, authentic use, and proven benefit ([issue #18](https://github.com/captainlandon/The-POWER-Standard/issues/18)).
 
 ## Why POWER exists
 
