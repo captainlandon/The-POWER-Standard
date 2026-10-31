@@ -140,6 +140,16 @@ POWER is under active development and validation. The current work includes:
 
 This repository should be treated as a developing project rather than a finished public authority or production data service.
 
+## Public website
+
+The explanatory POWER website is available at [power-standard-home.bandolando28.chatgpt.site](https://power-standard-home.bandolando28.chatgpt.site).
+
+Its source is preserved in [`website/`](./website/), including the homepage, platform architecture, methodology, POWER Retrospective, American political parties primer, visual assets, and the conversation-to-site audit used for the current release. The public website and the React platform prototype are related but distinct surfaces:
+
+- `website/` explains the standard, product architecture, safeguards, and current status;
+- `src/` contains the interactive React platform prototype;
+- production features should migrate into the application only after their data, evidence, accessibility, privacy, and governance requirements are defined.
+
 ## Prototype data and verification status
 
 The prototype contains a mixture of real public institutions, laws, reports, and policy examples together with demonstration records used to test POWER's data model and interface. **A real institution or source name does not automatically mean that every associated prototype claim has been independently verified.**
