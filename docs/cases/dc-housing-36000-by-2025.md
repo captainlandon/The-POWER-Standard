@@ -13,7 +13,7 @@ What was promised, who had authority to act, what resources moved, what happened
 
 Mayor's Order 2019-036 formally stated a goal to create 36,000 new residential units by 2025, including at least 12,000 affordable units, and to preserve an additional 6,000 affordable units. The District later reported that 36,216 total units had been produced by July 29, 2024. On the same date, it reported 9,845 affordable units, or 82 percent of the 12,000-unit affordable target.
 
-This case therefore does not label the entire commitment simply "kept" or "broken." The official record supports a reported total-unit milestone as of July 2024, while the affordable target was not yet complete at that date. POWER has not yet reproduced a final end-of-2025 affordable-unit result.
+This case therefore does not label the entire commitment simply "kept" or "broken." The official record supports a reported total-unit milestone as of July 2024, while the affordable target was not yet complete at that date. A later DMPED report says the District achieved 12,000 new affordable homes in February 2026. POWER therefore records eventual reported achievement after the stated 2025 date, while keeping the exact December 31, 2025 count unresolved.
 
 ## Citizen walkthrough
 
@@ -24,7 +24,7 @@ This case therefore does not label the entire commitment simply "kept" or "broke
 5. **Follow named implementation.** Project selection is evidence of action, but it is not evidence of loan closing, construction completion, or occupancy.
 6. **Read the outcome with its method.** The official dashboard says its affordable-unit counting methodology changed in September 2022. A trend that crosses that date needs a comparability warning.
 7. **Check independent oversight.** D.C. Auditor reports provide institutional context that executive announcements do not.
-8. **Open the unknowns.** Final affordable production, project-level financial reconciliation, net unit growth, affordability duration, distribution, resident effects, and causal attribution still require work.
+8. **Open the unknowns.** The exact end-of-2025 affordable count, project-level financial reconciliation, net unit growth, affordability duration, distribution, resident effects, and causal attribution still require work.
 9. **Correct the record.** Use Issue #14 with the evidence ID, contested statement, supporting source, reason, and relevant date.
 
 ## Accountability chain
@@ -35,7 +35,7 @@ This case therefore does not label the entire commitment simply "kept" or "broke
 | Plan | Citywide and planning-area production goals | Completed units or equitable resident outcomes |
 | Resource | Announced investments and official annual fund reports | That every announced dollar was appropriated, obligated, spent, or effective |
 | Implementation | Named project selections and a project pipeline | Closings, completions, occupancy, or final unit counts |
-| Outcome | Agency-reported monthly dashboard and July 2024 milestone | Independent audit, net unit growth, causal impact, or final affordable-target completion |
+| Outcome | Agency-reported monthly dashboard, July 2024 milestone, and February 2026 affordable-goal achievement | Independent audit, exact end-of-2025 affordable count, net unit growth, or causal impact |
 | Oversight | Independent historical audits and expenditure analysis | That every historical finding remained current through 2025 |
 
 ## Claim-level source register
@@ -55,12 +55,13 @@ The typed source records live in `src/data/cases/dcHousingCase.ts`. Each record 
 | `case-dc-housing-66m-project-selection` | Implementation | D.C. Government | Selected project pipeline |
 | `case-dc-housing-dashboard-methodology` | Outcome | DMPED | Progress series and method change |
 | `case-dc-housing-2024-milestone` | Outcome | D.C. Office of Planning | Dated agency-reported totals |
+| `case-dc-housing-fy2025-return-on-investment` | Outcome | DMPED | Eventual achievement reported after the target date |
 | `case-dc-housing-odca-management-audit` | Oversight | Office of the D.C. Auditor | Historical fund-management review |
 | `case-dc-housing-odca-revenue-expenditure-review` | Oversight | Office of the D.C. Auditor | Historical revenue and expenditure review |
 
 ## Known unknowns
 
-- The final, reproducible end-of-2025 count for the affordable-unit target
+- The exact, reproducible affordable-unit count on December 31, 2025
 - Project progression from selection to closing, construction, completion, and occupancy
 - Reconciliation of announced, authorized, appropriated, obligated, disbursed, and expended funds
 - Net additions after demolition, conversion, covenant expiration, and other unit losses
@@ -91,7 +92,7 @@ Accepted corrections should update the public statement, add a dated change note
 ## Next verification pass
 
 1. Extract table-level FY 2022 and FY 2023 HPTF financial values.
-2. Locate and reproduce the final official end-of-2025 affordable-unit result.
+2. Locate and reproduce the exact official affordable-unit count on December 31, 2025.
 3. Match selected projects to loan closings, completed units, and occupancy records.
 4. Test planning-area performance against the published targets.
 5. Add resident outcome indicators without implying causation.
