@@ -6,6 +6,29 @@ POWER is being developed as open, public-interest civic infrastructure for makin
 
 Because this project deals with public institutions, political claims, evidence, and civic participation, contributions must meet a higher standard than ordinary product work: accuracy, traceability, accessibility, nonpartisanship, and epistemic humility are core requirements.
 
+## A good first contribution
+
+Choose one existing issue, check whether someone is already working on it, and leave a brief comment describing your intended approach. Small corrections, source reviews, accessible component improvements, and tests are welcome. If the issue is broad, propose a narrow first deliverable before writing a large patch.
+
+**Suggested starting issues:** [documentation #1](https://github.com/captainlandon/The-POWER-Standard/issues/1), [source display #6](https://github.com/captainlandon/The-POWER-Standard/issues/6), [accessibility #5](https://github.com/captainlandon/The-POWER-Standard/issues/5), and [DC data #4](https://github.com/captainlandon/The-POWER-Standard/issues/4).
+
+To work locally:
+
+```bash
+git clone https://github.com/captainlandon/The-POWER-Standard.git
+cd The-POWER-Standard
+npm install
+npm run dev
+# In a second terminal, before proposing your changes:
+npm run check
+```
+
+Use the development URL printed by the server. Treat any example institutional and policy records as research or demonstration content unless their verified status is explicitly established. Never submit access tokens, private user data, or unverified allegations.
+
+**For non-code contributions:** open a focused issue with your research question, exact source links, a precise claim, what the sources establish and do not establish, and any unresolved caveats.
+
+**For prospective partners or co-founders:** begin with a concrete potential contribution or pilot, and use professional private communication for personal details. An issue is not an application or a commitment to a formal role.
+
 ## Ways to contribute
 
 Contributors are welcome across technical and non-technical areas, including:
