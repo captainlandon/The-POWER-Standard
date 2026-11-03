@@ -2,6 +2,8 @@
 
 Audit date: 2026-10-29
 
+Latest synchronization: 2026-11-03
+
 ## Purpose
 
 This release reconciles the recent POWER Standard working conversations into a coherent public website. It distinguishes the civic standard, public platform, proposed pilot, historical research module, and related Tao Institute instruments.
@@ -39,6 +41,12 @@ This release reconciles the recent POWER Standard working conversations into a c
 ## Important product boundary
 
 The public site is an explanatory working prototype. It does not yet contain a production government-data pipeline, live candidate records, jurisdiction lookup, automated auditing, legal determinations, or a validated Flourishing Index. Illustrative content is labeled accordingly.
+
+## Version 10 addition
+
+The November 2 release added POWER Learn as a plain-language path from civic comprehension to evidence inspection and individual action preparation. It includes an eight-part government guide, a bounded DC housing evidence example, links to original government sources, and a browser-local call or letter draft builder. POWER does not send, store, or track those drafts. Representative matching, message delivery, and shared campaign tracking remain future capabilities.
+
+GitHub is now designated as the canonical public source for the explanatory website. The hosted Sites repository remains the deployment mirror.
 
 ## Suggested next build sequence
 

@@ -13,6 +13,8 @@ Open `index.html` in a browser. The site has no build dependencies.
 ## Files
 
 - `index.html`: public homepage
+- `learn.html`: POWER Learn government guide and civic-action preparation interface
+- `learn.js`: browser-local contact draft builder
 - `platform.html`: product and public-tool architecture
 - `methodology.html`: evidence and accountability safeguards
 - `retrospective.html`: historical accountability module
@@ -24,6 +26,8 @@ Open `index.html` in a browser. The site has no build dependencies.
 ## Relationship to the platform prototype
 
 This directory contains the explanatory public website. The repository's `src/` directory contains the interactive React platform prototype. Keeping these surfaces distinct allows the public narrative and the application architecture to evolve deliberately while sharing the same standard and project repository.
+
+This directory is the canonical public source for the explanatory website. The hosted Sites repository is used as a deployment mirror. Changes made during a hosted editing session should be synchronized here so the public record remains current.
 
 ## Status
 

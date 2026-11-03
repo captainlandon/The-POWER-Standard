@@ -150,6 +150,8 @@ Its source is preserved in [`website/`](./website/), including the homepage, pla
 - `src/` contains the interactive React platform prototype;
 - production features should migrate into the application only after their data, evidence, accessibility, privacy, and governance requirements are defined.
 
+GitHub is the canonical public source for the explanatory website. The hosted Sites repository is the deployment mirror. Website releases should be synchronized back to `website/` before the release is treated as complete.
+
 ## Prototype data and verification status
 
 The prototype contains a mixture of real public institutions, laws, reports, and policy examples together with demonstration records used to test POWER's data model and interface. **A real institution or source name does not automatically mean that every associated prototype claim has been independently verified.**
