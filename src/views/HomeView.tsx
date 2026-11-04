@@ -300,7 +300,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenEvidence }
               </h2>
 
               <p className="text-sm sm:text-base text-stone-200 leading-relaxed font-sans">
-                You have read the charter. You understand why this standard must exist. Now, open the working instrument: inspect live municipal dockets, audit statutory authority, trace post-election mandates, and draft standard-compliant civic plans.
+                You have read the charter. You understand why this standard must exist. Now, open the working instrument: inspect structured municipal dockets, audit statutory authority, trace post-election mandates, and draft standard-compliant civic plans.
               </p>
             </div>
 
@@ -334,17 +334,17 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenEvidence }
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 animate-in fade-in duration-150">
           {/* Broadside Masthead for Operating Instrument */}
           <BroadsideMasthead
-            eyebrow="OPERATIONAL CIVIC WORKBENCH · REAL-TIME MUNICIPAL & CONSTITUTIONAL LEDGER"
+            eyebrow="OPERATIONAL CIVIC WORKBENCH · STRUCTURED MUNICIPAL & CONSTITUTIONAL LEDGER"
             title="The POWER Apparatus"
             subhead="The Working Instrument for Sovereign Citizens, Legislative Counsel, Public Auditors, and Investigative Press."
-            volNumber="INSTRUMENT STATUS: ACTIVE & INSPECTABLE"
+            volNumber="INSTRUMENT STATUS: PROTOTYPE & INSPECTABLE"
             dateStr="DEMONSTRATION JURISDICTION: WASHINGTON, DC"
           />
 
           {/* Return to Exposition Link */}
           <div className="flex items-center justify-between bg-white p-3.5 rounded-xl border border-stone-200 text-xs font-mono">
             <span className="text-[#596273]">
-              Currently operating the active civic workbench.
+              Currently exploring the inspectable civic workbench prototype.
             </span>
             <button
               type="button"
