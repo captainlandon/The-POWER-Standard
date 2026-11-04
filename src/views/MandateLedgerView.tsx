@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MANDATE_LEDGER_ENTRIES } from '../data/ecosystemData';
 import { MandateLedgerEntry } from '../types/power';
 import { DataStatusBadge, SimulatedRecordNotice } from '../components/Badge';
+import { VerifiedCaseCallout } from '../components/VerifiedCaseCallout';
 import { 
   Layers, 
   CheckCircle2, 
@@ -69,6 +70,8 @@ export const MandateLedgerView: React.FC<MandateLedgerViewProps> = ({
           Draft in Plan Builder
         </button>
       </div>
+
+      <VerifiedCaseCallout onNavigate={onNavigate} lens="mandate" />
 
       {/* Simulated Demonstration Record Notice */}
       <SimulatedRecordNotice />

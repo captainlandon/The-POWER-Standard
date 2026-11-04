@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { EVIDENCE_STORE } from '../data/mockData';
+import { DC_HOUSING_CASE_SOURCES } from '../data/cases';
+import { VerifiedCaseCallout } from '../components/VerifiedCaseCallout';
 import { EpistemicBadge, DataStatusBadge, EvidentiaryStrengthBadge, ClaimTypeBadge, SimulatedRecordNotice } from '../components/Badge';
 import { SourceType, EpistemicStatus } from '../types/power';
 import { 
@@ -23,12 +25,14 @@ import {
 } from 'lucide-react';
 
 interface EvidenceViewProps {
+  onNavigate: (view: string, id?: string) => void;
   onOpenEvidence: (id: string) => void;
   onOpenCorrection: (recordTitle: string, recordId: string) => void;
   onOpenUpload: (recordId: string, stageName: string) => void;
 }
 
 export const EvidenceView: React.FC<EvidenceViewProps> = ({
+  onNavigate,
   onOpenEvidence,
   onOpenCorrection,
   onOpenUpload
@@ -83,7 +87,9 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
     handleRunClaimAnalysis(ev.supportsClaim, `Documented in: ${ev.title} (${ev.publisher})`);
   };
 
-  const filtered = EVIDENCE_STORE.filter(ev => {
+  const evidenceRecords = [...DC_HOUSING_CASE_SOURCES, ...EVIDENCE_STORE];
+
+  const filtered = evidenceRecords.filter(ev => {
     const matchesSearch = ev.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           ev.publisher.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           ev.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,6 +127,8 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
           <span>Deposit Primary Record</span>
         </button>
       </div>
+
+      <VerifiedCaseCallout onNavigate={onNavigate} lens="evidence" />
 
       {/* Simulated Demonstration Record Notice (Requirement 2) */}
       <SimulatedRecordNotice />
@@ -212,27 +220,27 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1">
           <span className="font-mono text-[10px] text-slate-400 uppercase font-bold">Total Evidence Items</span>
-          <div className="text-xl font-mono font-bold text-slate-900">{EVIDENCE_STORE.length}</div>
+          <div className="text-xl font-mono font-bold text-slate-900">{evidenceRecords.length}</div>
           <span className="text-[10px] text-slate-500">Indexed public records</span>
         </div>
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1">
           <span className="font-mono text-[10px] text-blue-600 uppercase font-bold">Primary Sources</span>
           <div className="text-xl font-mono font-bold text-blue-900">
-            {EVIDENCE_STORE.filter(e => e.sourceType === 'Primary').length}
+            {evidenceRecords.filter(e => e.sourceType === 'Primary').length}
           </div>
           <span className="text-[10px] text-slate-500">Laws, budgets, censuses</span>
         </div>
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1">
           <span className="font-mono text-[10px] text-emerald-600 uppercase font-bold">Secondary Sources</span>
           <div className="text-xl font-mono font-bold text-emerald-900">
-            {EVIDENCE_STORE.filter(e => e.sourceType === 'Secondary').length}
+            {evidenceRecords.filter(e => e.sourceType === 'Secondary').length}
           </div>
           <span className="text-[10px] text-slate-500">Reporting & audits</span>
         </div>
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 space-y-1">
           <span className="font-mono text-[10px] text-purple-600 uppercase font-bold">Derived Analysis</span>
           <div className="text-xl font-mono font-bold text-purple-900">
-            {EVIDENCE_STORE.filter(e => e.sourceType === 'Derived').length}
+            {evidenceRecords.filter(e => e.sourceType === 'Derived').length}
           </div>
           <span className="text-[10px] text-slate-500">POWER syntheses</span>
         </div>

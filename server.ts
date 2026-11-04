@@ -11,7 +11,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const portArgIndex = process.argv.indexOf('--port');
+const cliPort = portArgIndex >= 0 ? Number(process.argv[portArgIndex + 1]) : NaN;
+const port = Number.isFinite(cliPort) ? cliPort : Number(process.env.PORT || 3000);
 
 app.use(express.json({ limit: '10mb' }));
 

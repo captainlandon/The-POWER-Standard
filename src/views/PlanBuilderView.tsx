@@ -30,6 +30,7 @@ import {
 import { AuthorityBadge, DataStatusBadge, SimulatedRecordNotice } from '../components/Badge';
 import { FLOURISHING_DOMAINS } from '../data/ecosystemData';
 import { INSTITUTIONS, PUBLIC_PROBLEMS } from '../data/mockData';
+import { VerifiedCaseCallout } from '../components/VerifiedCaseCallout';
 
 interface PlanBuilderViewProps {
   onNavigate: (view: string, id?: string) => void;
@@ -241,6 +242,8 @@ export const PlanBuilderView: React.FC<PlanBuilderViewProps> = ({ onNavigate }) 
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+      <VerifiedCaseCallout onNavigate={onNavigate} lens="plan" />
+
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-indigo-50 text-indigo-800 border border-indigo-200 mb-2">

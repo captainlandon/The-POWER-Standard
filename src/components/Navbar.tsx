@@ -55,6 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'problems', label: 'Problems' },
     { id: 'institutions', label: 'Power Map' },
     { id: 'commitments', label: 'Plans' },
+    { id: 'case-dc-housing', label: 'Verified Case' },
     { id: 'mandate-ledger', label: 'Mandate Ledger' },
     { id: 'evidence', label: 'Evidence' },
     { id: 'civic-wire', label: 'Civic Wire' },
