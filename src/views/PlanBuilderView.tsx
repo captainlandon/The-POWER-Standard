@@ -263,15 +263,22 @@ export const PlanBuilderView: React.FC<PlanBuilderViewProps> = ({ onNavigate }) 
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-end gap-2">
+          {!API_FEATURES_ENABLED && (
+            <p className="max-w-sm text-right text-[11px] leading-relaxed text-slate-500">
+              {STATIC_API_NOTICE}
+            </p>
+          )}
+          <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={handleRunAiAudit}
-            disabled={isAuditing}
+            disabled={isAuditing || !API_FEATURES_ENABLED}
+            title={!API_FEATURES_ENABLED ? STATIC_API_NOTICE : 'Run an AI-assisted review of this plan'}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-indigo-900 hover:bg-indigo-950 rounded-lg transition-all shadow-xs disabled:opacity-60"
           >
             {isAuditing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-amber-300" />}
-            <span>{isAuditing ? 'Reviewing Plan...' : 'Run POWER Plan Review (Gemini)'}</span>
+            <span>{isAuditing ? 'Reviewing Plan...' : API_FEATURES_ENABLED ? 'Run POWER Plan Review (Gemini)' : 'AI Review Staged for Server Release'}</span>
           </button>
 
           <button
@@ -281,6 +288,7 @@ export const PlanBuilderView: React.FC<PlanBuilderViewProps> = ({ onNavigate }) 
           >
             Browse Published Plans
           </button>
+          </div>
         </div>
       </div>
 
@@ -461,9 +469,9 @@ export const PlanBuilderView: React.FC<PlanBuilderViewProps> = ({ onNavigate }) 
                   <h3 className="text-base font-serif font-bold text-white">Review Plan Across The 9 POWER Dimensions</h3>
                   <p className="text-xs text-slate-300 leading-relaxed">Review documentation completeness, authority claims, fiscal evidence, causal logic, and institutional dependencies without converting the plan into a political score or grade.</p>
                 </div>
-                <button type="button" onClick={handleRunAiAudit} disabled={isAuditing} className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition-all shadow-sm disabled:opacity-50">
+                <button type="button" onClick={handleRunAiAudit} disabled={isAuditing || !API_FEATURES_ENABLED} title={!API_FEATURES_ENABLED ? STATIC_API_NOTICE : 'Run an AI-assisted review of this plan'} className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition-all shadow-sm disabled:opacity-50">
                   {isAuditing ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : <Sparkles className="w-4 h-4 text-amber-300" />}
-                  <span>{isAuditing ? 'Reviewing Evidence...' : auditResult ? 'Re-Run Plan Review' : 'Run POWER Plan Review'}</span>
+                  <span>{isAuditing ? 'Reviewing Evidence...' : !API_FEATURES_ENABLED ? 'AI Review Staged' : auditResult ? 'Re-Run Plan Review' : 'Run POWER Plan Review'}</span>
                 </button>
               </div>
 
@@ -499,7 +507,7 @@ export const PlanBuilderView: React.FC<PlanBuilderViewProps> = ({ onNavigate }) 
           {currentStep < 5 ? (
             <button type="button" onClick={() => setCurrentStep(prev => Math.min(5, prev + 1))} className="inline-flex items-center gap-1.5 px-5 py-2 text-xs font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors shadow-xs"><span>Next: {steps[currentStep].title}</span><ArrowRight className="w-3.5 h-3.5" /></button>
           ) : (
-            <button type="button" onClick={handleRunAiAudit} disabled={isAuditing} className="inline-flex items-center gap-1.5 px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-xs disabled:opacity-60">{isAuditing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}<span>{isAuditing ? 'Reviewing Plan...' : 'Validate & Review Plan'}</span></button>
+            <button type="button" onClick={handleRunAiAudit} disabled={isAuditing || !API_FEATURES_ENABLED} title={!API_FEATURES_ENABLED ? STATIC_API_NOTICE : 'Validate and review this plan'} className="inline-flex items-center gap-1.5 px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors shadow-xs disabled:opacity-60">{isAuditing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}<span>{isAuditing ? 'Reviewing Plan...' : API_FEATURES_ENABLED ? 'Validate & Review Plan' : 'Review Staged'}</span></button>
           )}
         </div>
       </div>
