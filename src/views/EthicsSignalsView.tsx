@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ETHICS_SIGNALS, MONEY_INFLUENCE_RECORDS } from '../data/ecosystemData';
 import { EthicsSignal, EthicsSignalStatus, EthicsSignalCategory, MoneyInfluenceRecord } from '../types/power';
 import { DataStatusBadge, SimulatedRecordNotice } from '../components/Badge';
+import { API_FEATURES_ENABLED, STATIC_API_NOTICE } from '../lib/runtime';
 import { 
   ShieldAlert, 
   AlertTriangle, 
@@ -56,6 +57,11 @@ export const EthicsSignalsView: React.FC<EthicsSignalsViewProps> = ({
     const official = o || officialInput;
     const contrib = c || contribInput;
     const action = a || actionInput;
+
+    if (!API_FEATURES_ENABLED) {
+      setExamError(STATIC_API_NOTICE);
+      return;
+    }
 
     setIsExamining(true);
     setExamError(null);
