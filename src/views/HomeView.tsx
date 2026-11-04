@@ -77,7 +77,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenEvidence }
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" />
-              <span>1. The Exposition (The Standard Explained)</span>
+              <span>1. Understand POWER</span>
             </button>
 
             <button
@@ -90,7 +90,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenEvidence }
               }`}
             >
               <Scale className="w-3.5 h-3.5 text-[#B38A3E]" />
-              <span>2. The Operating Instrument (The Workbench)</span>
+              <span>2. Use POWER</span>
             </button>
           </div>
         </div>
@@ -310,7 +310,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenEvidence }
                 onClick={() => setDisplayMode('instrument')}
                 className="px-8 py-4 bg-[#B38A3E] hover:bg-amber-400 text-slate-950 font-serif font-black text-sm uppercase tracking-wider rounded-lg shadow-xl hover:shadow-2xl transition-all flex items-center gap-3 border-2 border-white"
               >
-                <span>Launch the Operating Instrument</span>
+                <span>Use the POWER Instrument</span>
                 <ArrowRight className="w-5 h-5 text-slate-950" />
               </button>
 
@@ -351,7 +351,7 @@ export const HomeView: React.FC<HomeViewProps> = ({ onNavigate, onOpenEvidence }
               onClick={() => setDisplayMode('exposition')}
               className="text-[#2457A7] hover:text-[#0A1D3B] font-bold inline-flex items-center gap-1"
             >
-              <span>← Return to The Exposition (Charter)</span>
+              <span>← Return to Understand POWER</span>
             </button>
           </div>
 

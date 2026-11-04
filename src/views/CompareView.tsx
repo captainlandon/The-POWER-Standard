@@ -17,6 +17,7 @@ import {
   ShieldAlert
 } from 'lucide-react';
 import { StatusBadge, SpecificityBadge, DataStatusBadge, SimulatedRecordNotice } from '../components/Badge';
+import { API_FEATURES_ENABLED, STATIC_API_NOTICE } from '../lib/runtime';
 
 interface CompareViewProps {
   onNavigate: (view: string, id?: string) => void;
@@ -43,6 +44,10 @@ export const CompareView: React.FC<CompareViewProps> = ({ onNavigate, onOpenEvid
   const actorB = PUBLIC_ACTORS.find(a => a.id === selectedActorB) || PUBLIC_ACTORS[1];
 
   const handleRunTradeoffAnalysis = async () => {
+    if (!API_FEATURES_ENABLED) {
+      setSimError(STATIC_API_NOTICE);
+      return;
+    }
     setIsSimulating(true);
     setSimError(null);
     try {

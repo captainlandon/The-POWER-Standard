@@ -31,6 +31,7 @@ import { AuthorityBadge, DataStatusBadge, SimulatedRecordNotice } from '../compo
 import { FLOURISHING_DOMAINS } from '../data/ecosystemData';
 import { INSTITUTIONS, PUBLIC_PROBLEMS } from '../data/mockData';
 import { VerifiedCaseCallout } from '../components/VerifiedCaseCallout';
+import { API_FEATURES_ENABLED, STATIC_API_NOTICE } from '../lib/runtime';
 
 interface PlanBuilderViewProps {
   onNavigate: (view: string, id?: string) => void;
@@ -101,6 +102,10 @@ export const PlanBuilderView: React.FC<PlanBuilderViewProps> = ({ onNavigate }) 
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
 
   const handleRunAiAudit = async () => {
+    if (!API_FEATURES_ENABLED) {
+      setAuditError(STATIC_API_NOTICE);
+      return;
+    }
     setIsAuditing(true);
     setAuditError(null);
     try {

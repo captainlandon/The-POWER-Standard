@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { EVIDENCE_STORE } from '../data/mockData';
 import { DC_HOUSING_CASE_SOURCES } from '../data/cases';
 import { VerifiedCaseCallout } from '../components/VerifiedCaseCallout';
+import { API_FEATURES_ENABLED, STATIC_API_NOTICE } from '../lib/runtime';
 import { EpistemicBadge, DataStatusBadge, EvidentiaryStrengthBadge, ClaimTypeBadge, SimulatedRecordNotice } from '../components/Badge';
 import { SourceType, EpistemicStatus } from '../types/power';
 import { 
@@ -53,6 +54,11 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
     const text = claimToAnalyze || customClaimText;
     const ctx = contextToAnalyze || customContext;
     if (!text.trim()) return;
+
+    if (!API_FEATURES_ENABLED) {
+      setAnalysisError(STATIC_API_NOTICE);
+      return;
+    }
 
     setIsAnalyzing(true);
     setAnalysisError(null);

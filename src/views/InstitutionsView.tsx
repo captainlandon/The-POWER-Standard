@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { INSTITUTIONS, PUBLIC_PROBLEMS, PUBLIC_ACTORS } from '../data/mockData';
 import { AuthorityBadge, DataStatusBadge, SimulatedRecordNotice } from '../components/Badge';
+import { API_FEATURES_ENABLED, STATIC_API_NOTICE } from '../lib/runtime';
 import { 
   Building2, 
   Search, 
@@ -34,6 +35,11 @@ export const InstitutionsView: React.FC<InstitutionsViewProps> = ({ onSelectInst
   const handleDiscoverAuthority = async (customQuery?: string) => {
     const q = customQuery || issueQuery;
     if (!q.trim()) return;
+
+    if (!API_FEATURES_ENABLED) {
+      setMappingError(STATIC_API_NOTICE);
+      return;
+    }
 
     setIsDiscovering(true);
     setMappingError(null);
