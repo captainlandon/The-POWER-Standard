@@ -118,14 +118,14 @@ export const EvidenceDrawer: React.FC<EvidenceDrawerProps> = ({
             </div>
           </div>
 
-          {/* Verbatim Record Excerpt */}
+          {/* Source excerpt or bounded summary */}
           <div className="space-y-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5 font-mono">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Verbatim Primary Excerpt</span>
+              <span>Source Excerpt or Bounded Summary</span>
             </h3>
             <blockquote className="p-4 bg-amber-50/40 border-l-4 border-amber-400 text-slate-800 italic rounded-r-lg font-serif leading-relaxed text-sm">
-              “{evidence.excerpt}”
+              {evidence.excerpt}
             </blockquote>
           </div>
 

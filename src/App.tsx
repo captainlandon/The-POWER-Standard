@@ -27,8 +27,10 @@ import { EthicsSignalsView } from './views/EthicsSignalsView';
 import { CivicWireAndPartiesView } from './views/CivicWireAndPartiesView';
 import { ResearchApiView } from './views/ResearchApiView';
 import { PowerLearnView } from './views/PowerLearnView';
+import { PublicCaseView } from './views/PublicCaseView';
 
 import { EVIDENCE_STORE, INITIAL_CORRECTIONS } from './data/mockData';
+import { DC_HOUSING_CASE_SOURCES } from './data/cases';
 import { EvidenceItem, CorrectionSubmission, FeedbackSubmission } from './types/power';
 import { ShieldCheck, Scale, BookOpen, ExternalLink, ArrowRight } from 'lucide-react';
 
@@ -86,7 +88,7 @@ export default function App() {
   };
 
   const handleOpenEvidence = (evidenceId: string) => {
-    const found = EVIDENCE_STORE.find(e => e.id === evidenceId) || EVIDENCE_STORE[0];
+    const found = [...DC_HOUSING_CASE_SOURCES, ...EVIDENCE_STORE].find(e => e.id === evidenceId) || EVIDENCE_STORE[0];
     setActiveEvidence(found);
     setIsEvidenceDrawerOpen(true);
   };
@@ -202,6 +204,7 @@ export default function App() {
 
         {currentView === 'evidence' && (
           <EvidenceView
+            onNavigate={handleNavigate}
             onOpenEvidence={handleOpenEvidence}
             onOpenCorrection={(title, id) => handleOpenCorrection(title, id, 'Evidence')}
             onOpenUpload={handleOpenUpload}
@@ -274,6 +277,13 @@ export default function App() {
         {currentView === 'power-learn' && (
           <PowerLearnView
             onNavigate={handleNavigate}
+          />
+        )}
+
+        {currentView === 'case-dc-housing' && (
+          <PublicCaseView
+            onNavigate={handleNavigate}
+            onOpenEvidence={handleOpenEvidence}
           />
         )}
       </main>
