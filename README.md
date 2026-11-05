@@ -1,5 +1,7 @@
 # The POWER Standard
 
+> **Visiting from Civic Tech DC?** Explore our [three-project civic technology showcase](./docs/CIVIC_TECH_DC_SHOWCASE.md): **POWER Standard · Panoptica · Prism**. POWER is publicly available here; the other project codebases remain private pending release reviews.
+
 **The POWER Standard is a nonpartisan civic-accountability platform that connects public problems, institutional authority, public plans, implementation, outcomes, and evidence so people can see who can act, what was promised, what happened, and what remains unresolved.**
 
 > “Knowledge will forever govern ignorance; and a people who mean to be their own governors must arm themselves with the power which knowledge gives.” — James Madison
