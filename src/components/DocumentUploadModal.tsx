@@ -183,7 +183,7 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
                 type="submit"
                 className="px-4 py-1.5 font-bold text-white bg-slate-900 hover:bg-slate-800 rounded transition-colors"
               >
-                Attach & Verify
+                Attach for Review
               </button>
             </div>
           </form>
@@ -192,3 +192,4 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
     </div>
   );
 };
+
