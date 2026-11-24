@@ -22,3 +22,16 @@ test('source instructions remain inert text and ingestion never fetches a URL',(
 test('reject invalid, insecure and oversized inputs instead of silently truncating the source',()=>{
   for(const bad of [{...source,url:'file:///secret'},{...source,retrievedAt:'unknown'},{...source,text:'x'.repeat(200001)}]) assert.throws(()=>createEvidenceDrafts({source:bad,candidates:[]}));
 });
+
+// Public-domain primary-source excerpt, National Archives transcription, accessed 2026-11-24.
+test('real constitutional source preserves appropriation rule without asserting spending or outcomes',()=>{
+  const quote='No Money shall be drawn from the Treasury, but in Consequence of Appropriations made by Law';
+  const real={id:'us-constitution-art1-sec9-cl7',url:'https://www.archives.gov/founding-docs/constitution-transcript',locator:'Article I, Section 9, Clause 7 (excerpt)',retrievedAt:'2026-11-24',text:quote};
+  const [r]=createEvidenceDrafts({source:real,candidates:[{claim:'Treasury withdrawals require appropriations made by law',quote,stage:'appropriation',jurisdiction:'United States'}]});
+  assert.equal(r.stage,'appropriation');
+  assert.equal(real.text.slice(r.evidence.start,r.evidence.end),quote);
+  assert.equal(r.epistemicStatus,'unknown');
+  assert.equal(r.humanReviewed,false);
+  assert.equal(r.publicationStatus,'draft');
+  assert.equal(r.eventDate,null);
+});
