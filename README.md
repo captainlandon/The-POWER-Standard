@@ -230,3 +230,9 @@ The immediate goal is to move POWER from a working concept and prototype into a 
 The long-term objective is straightforward:
 
 **Make it easier for people to understand public problems, identify who has power to act, follow what government says it will do, inspect what actually happened, and participate with clearer knowledge of where their influence can matter.**
+
+
+
+## AI evidence implementation
+
+See [implementation and validation](docs/AI_IMPLEMENTATION.md) and [AI change review evidence](docs/AI_CHANGE_EVIDENCE.md) for this bounded implementation, test results and remaining gates.
